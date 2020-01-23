@@ -2,10 +2,11 @@ package com.tagteam.tileexplorer.game.windows;
 
 import com.gestankbratwurst.le_engine.graphics.GTask;
 import com.google.common.collect.Lists;
-import com.tagteam.tileexplorer.util.IntVect2D;
+import com.tagteam.tileexplorer.util.math.IntVect2D;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import javax.annotation.Nullable;
+import lombok.Getter;
 
 /*******************************************************
  * Copyright (C) Gestankbratwurst suotokka@gmail.com
@@ -18,13 +19,22 @@ import javax.annotation.Nullable;
  */
 public class WindowManager implements GTask {
 
+  @Getter
+  private static WindowManager instance;
+
   public WindowManager() {
+    instance = this;
     this.activeWindows = Lists.newLinkedList();
   }
 
   private final LinkedList<GameWindow> activeWindows;
 
+  private boolean isFocused(GameWindow window) {
+    return activeWindows.peek() == window;
+  }
+
   public void addWindow(GameWindow window) {
+    window.onOpen();
     this.activeWindows.add(window);
   }
 
@@ -33,6 +43,9 @@ public class WindowManager implements GTask {
   }
 
   public void focusWindow(GameWindow window) {
+    if (isFocused(window)) {
+      return;
+    }
     activeWindows.remove(window);
     activeWindows.add(window);
   }

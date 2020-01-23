@@ -2,7 +2,7 @@ package com.tagteam.tileexplorer.game.events.windowclick;
 
 import com.tagteam.tileexplorer.game.events.Cancellable;
 import com.tagteam.tileexplorer.game.events.Event;
-import com.tagteam.tileexplorer.util.IntVect2D;
+import com.tagteam.tileexplorer.util.math.IntVect2D;
 import lombok.Getter;
 
 /*******************************************************

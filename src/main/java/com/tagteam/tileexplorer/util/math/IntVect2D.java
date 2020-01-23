@@ -1,6 +1,7 @@
-package com.tagteam.tileexplorer.util;
+package com.tagteam.tileexplorer.util.math;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /*******************************************************
  * Copyright (C) Gestankbratwurst suotokka@gmail.com
@@ -12,11 +13,21 @@ import lombok.Data;
  *
  */
 
-@Data
+@AllArgsConstructor
 public class IntVect2D {
 
-  private final int x;
-  private final int y;
+  @Getter
+  private int x;
+  @Getter
+  private int y;
+
+  protected void shiftRight(int amount) {
+    x += amount;
+  }
+
+  protected void shiftDown(int amount) {
+    y += amount;
+  }
 
   public boolean isSmallerOrEqualTo(IntVect2D otherVect) {
     return x <= otherVect.x && y <= otherVect.y;

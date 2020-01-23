@@ -1,6 +1,6 @@
-package com.tagteam.tileexplorer.util;
+package com.tagteam.tileexplorer.scheduler;
 
-import java.awt.Color;
+import com.gestankbratwurst.le_engine.logic.LogicElement;
 
 /*******************************************************
  * Copyright (C) Gestankbratwurst suotokka@gmail.com
@@ -11,11 +11,6 @@ import java.awt.Color;
  * permission of the owner.
  *
  */
-public class ColorUtil {
-
-  // TODO compute brighter color
-  public static Color brighten(Color color) {
-    return color;
-  }
+public class GameScheduler {
 
 }

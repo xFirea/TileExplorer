@@ -22,10 +22,10 @@ public class GameLogger {
     GameLogger.enabled = engineCore.isConsoleEnabled();
   }
 
-  public static void log(String message) {
+  public static void log(Object message) {
     if (enabled) {
       String date = new SimpleDateFormat("HH:mm:ss").format(new Date());
-      String output = "[" + date + "] " + message;
+      String output = "[" + date + "] " + message.toString();
       System.out.println(output);
     }
   }

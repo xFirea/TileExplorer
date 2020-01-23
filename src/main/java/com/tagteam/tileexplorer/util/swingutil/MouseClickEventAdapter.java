@@ -1,9 +1,13 @@
 package com.tagteam.tileexplorer.util.swingutil;
 
 import com.tagteam.tileexplorer.game.events.GameEventManager;
-import com.tagteam.tileexplorer.game.events.windowclick.MouseClickType;
 import com.tagteam.tileexplorer.game.events.windowclick.ClickEvent;
-import com.tagteam.tileexplorer.util.IntVect2D;
+import com.tagteam.tileexplorer.game.events.windowclick.MouseClickType;
+import com.tagteam.tileexplorer.game.events.windowclick.WindowClickEvent;
+import com.tagteam.tileexplorer.game.windows.GameWindow;
+import com.tagteam.tileexplorer.game.windows.WindowManager;
+import com.tagteam.tileexplorer.util.GameLogger;
+import com.tagteam.tileexplorer.util.math.IntVect2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.SwingUtilities;
@@ -20,11 +24,13 @@ import javax.swing.SwingUtilities;
 
 public class MouseClickEventAdapter implements MouseListener {
 
-  public MouseClickEventAdapter(GameEventManager eventManager) {
+  public MouseClickEventAdapter(GameEventManager eventManager, WindowManager windowManager) {
     this.gameEventManager = eventManager;
+    this.windowManager = windowManager;
   }
 
   private final GameEventManager gameEventManager;
+  private final WindowManager windowManager;
 
   @Override
   public void mouseClicked(MouseEvent e) {
@@ -41,6 +47,8 @@ public class MouseClickEventAdapter implements MouseListener {
     IntVect2D position = new IntVect2D(e.getX(), e.getY());
     MouseClickType clickType;
 
+    GameLogger.log("X: " + position.getX() + " | Y: " + position.getY());
+
     if (SwingUtilities.isLeftMouseButton(e)) {
       clickType = MouseClickType.LEFT;
     } else if (SwingUtilities.isRightMouseButton(e)) {
@@ -51,8 +59,15 @@ public class MouseClickEventAdapter implements MouseListener {
       clickType = MouseClickType.EXTRA;
     }
 
-    ClickEvent event = new ClickEvent(position, clickType);
-    gameEventManager.callWindowClick(event);
+    GameWindow window = windowManager.getTopWindowAt(position);
+    if (window == null) {
+      ClickEvent clickEvent = new ClickEvent(position, clickType);
+      gameEventManager.callEvent(clickEvent);
+    } else {
+      WindowClickEvent windowClickEvent = new WindowClickEvent(position, clickType, window);
+      gameEventManager.callEvent(windowClickEvent);
+      window.checkClick(windowClickEvent);
+    }
   }
 
   @Override

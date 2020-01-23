@@ -1,4 +1,4 @@
-package com.tagteam.tileexplorer.util;
+package com.tagteam.tileexplorer.util.reflections;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @AllArgsConstructor
-public class CallableMethod {
+public class InvokableSingleParamObject {
 
   private final Method method;
   private final Object object;

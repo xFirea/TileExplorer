@@ -1,4 +1,6 @@
-package com.tagteam.tileexplorer.game.events;
+package com.tagteam.tileexplorer.util.graphics;
+
+import java.awt.Color;
 
 /*******************************************************
  * Copyright (C) Gestankbratwurst suotokka@gmail.com
@@ -9,13 +11,11 @@ package com.tagteam.tileexplorer.game.events;
  * permission of the owner.
  *
  */
+public class UtilColor {
 
-public class Event {
-
-  private final GameEventManager gameEventManager = GameEventManager.getInstance();
-
-  public void callEvent() {
-    gameEventManager.callEvent(this);
+  // TODO compute brighter color
+  public static Color brighten(Color color) {
+    return color;
   }
 
 }

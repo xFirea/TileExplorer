@@ -1,6 +1,10 @@
-package com.tagteam.tileexplorer.util;
+package com.tagteam.tileexplorer.util.graphics;
 
+import com.tagteam.tileexplorer.util.math.IntBoundingBox;
+import com.tagteam.tileexplorer.util.math.IntVect2D;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 
 /*******************************************************
@@ -13,7 +17,7 @@ import java.awt.Graphics;
  *
  */
 
-public class GraphicsUtil {
+public class UtilGraphics {
 
   public static void drawRect(IntBoundingBox boundingBox, Graphics graphics) {
     IntVect2D leftC = boundingBox.getLeftCorner();
@@ -53,9 +57,18 @@ public class GraphicsUtil {
       }
       width += 2;
       height += 2;
-      startColor = ColorUtil.brighten(startColor);
+      startColor = UtilColor.brighten(startColor);
       graphics.setColor(startColor);
     }
   }
+
+  public static void drawCenterText(IntVect2D position, Graphics graphics, String text, Font font) {
+    graphics.setFont(font);
+    FontMetrics fontMetrics = graphics.getFontMetrics(font);
+    int w2 = fontMetrics.stringWidth(text) / 2;
+    int h2 = position.getY() - (fontMetrics.getHeight() / 2) + fontMetrics.getAscent();
+    graphics.drawString(text, position.getX() - w2, h2);
+  }
+
 
 }

@@ -3,15 +3,16 @@ package com.tagteam.tileexplorer;
 import com.gestankbratwurst.le_engine.EngineCore;
 import com.gestankbratwurst.le_engine.audio.GameAudioController;
 import com.gestankbratwurst.le_engine.graphics.GameGraphicController;
+import com.gestankbratwurst.le_engine.graphics.GraphicPriority;
 import com.gestankbratwurst.le_engine.logic.GameLogicController;
 import com.gestankbratwurst.le_engine.logic.LogicPrecision;
 import com.gestankbratwurst.le_engine.startmenu.GameResolution;
 import com.tagteam.tileexplorer.game.events.GameEventManager;
 import com.tagteam.tileexplorer.game.events.Listener;
+import com.tagteam.tileexplorer.game.windows.WindowManager;
 import com.tagteam.tileexplorer.graphics.Background;
 import com.tagteam.tileexplorer.util.GameLogger;
-import com.tagteam.tileexplorer.util.IntBoundingBox;
-import com.tagteam.tileexplorer.util.IntVect2D;
+import com.tagteam.tileexplorer.util.math.IntBoundingBox;
 import com.tagteam.tileexplorer.util.swingutil.MouseClickEventAdapter;
 import java.awt.Color;
 
@@ -48,6 +49,7 @@ public class TileExplorerCore {
     this.graphicController = engine.getGameGraphicController();
     this.audioController = engine.getGameAudioController();
     this.gameResolution = engine.getGameResolution();
+    this.windowManager = new WindowManager();
     setup();
   }
 
@@ -57,9 +59,10 @@ public class TileExplorerCore {
   private final GameLogicController logicController;
   private final GameGraphicController graphicController;
   private final GameAudioController audioController;
+  private final WindowManager windowManager;
 
   public void registerEvents(Listener listener) {
-    this.eventManager.registerEvents(listener);
+    this.eventManager.registerListener(listener);
   }
 
   private void setup() {
@@ -71,19 +74,20 @@ public class TileExplorerCore {
 
   private void setupSwing() {
     GameLogger.log("Swing setup...");
-    engineCore.addMouseListener(new MouseClickEventAdapter(eventManager));
+    engineCore.addMouseListener(new MouseClickEventAdapter(eventManager, windowManager));
   }
 
   private void setupGraphics() {
     GameLogger.log("Graphics setup...");
     Background background = new Background(gameResolution, Color.LIGHT_GRAY);
     graphicController.putGraphicTask("Background", background);
-
-    IntBoundingBox testWindowBox = new IntBoundingBox(new IntVect2D(100, 100), new IntVect2D(200, 500));
-
+    graphicController.putGraphicTask(GraphicPriority.HIGH,"WindowTask", windowManager);
+    graphicController.setFpsLimitEnabled(true);
+    graphicController.setFpsLimit(60);
     graphicController.setFpsColor(Color.GREEN);
     graphicController.setInternalFpsDrawerEnabled(true);
 
+    windowManager.addWindow(new TestWindow(new IntBoundingBox(0, 0, 200, 200)));
   }
 
   private void setupLogic() {
