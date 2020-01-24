@@ -10,6 +10,6 @@ package com.tagteam.tileexplorer.game.tiles;
  *
  */
 
-public class Tile {
+public interface Tile {
 
 }
