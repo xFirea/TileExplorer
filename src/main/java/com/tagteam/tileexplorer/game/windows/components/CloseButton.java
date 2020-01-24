@@ -1,6 +1,9 @@
 package com.tagteam.tileexplorer.game.windows.components;
 
+import com.tagteam.tileexplorer.core.AudioController;
 import com.tagteam.tileexplorer.game.events.windowclick.ComponentClickEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.MouseDragEndEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.MouseDragStartEvent;
 import com.tagteam.tileexplorer.game.windows.GameWindow;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -29,7 +32,18 @@ public class CloseButton extends SimpleButton {
 
   @Override
   public void onButtonClicked(ComponentClickEvent event) {
+    AudioController.play("UI_CLICK_3");
     this.host.close();
+  }
+
+  @Override
+  public void handleDragStart(MouseDragStartEvent event) {
+
+  }
+
+  @Override
+  public void handleDragEnd(MouseDragEndEvent event) {
+
   }
 
 }

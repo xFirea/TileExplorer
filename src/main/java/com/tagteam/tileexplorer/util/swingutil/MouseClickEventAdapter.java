@@ -1,13 +1,18 @@
 package com.tagteam.tileexplorer.util.swingutil;
 
+import com.tagteam.tileexplorer.core.TaskController;
 import com.tagteam.tileexplorer.game.events.GameEventManager;
 import com.tagteam.tileexplorer.game.events.windowclick.ClickEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.MouseClickType;
+import com.tagteam.tileexplorer.game.events.windowclick.MouseDragEndEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.MouseDragStartEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.WindowClickEvent;
 import com.tagteam.tileexplorer.game.windows.GameWindow;
 import com.tagteam.tileexplorer.game.windows.WindowManager;
 import com.tagteam.tileexplorer.util.GameLogger;
 import com.tagteam.tileexplorer.util.math.IntVect2D;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.SwingUtilities;
@@ -31,6 +36,9 @@ public class MouseClickEventAdapter implements MouseListener {
 
   private final GameEventManager gameEventManager;
   private final WindowManager windowManager;
+  private IntVect2D startClick;
+  private boolean dragStart = false;
+  private boolean m1Pressed = false;
 
   @Override
   public void mouseClicked(MouseEvent e) {
@@ -39,7 +47,18 @@ public class MouseClickEventAdapter implements MouseListener {
 
   @Override
   public void mousePressed(MouseEvent e) {
-
+    if (SwingUtilities.isLeftMouseButton(e)) {
+      m1Pressed = true;
+      IntVect2D startPoint = new IntVect2D(e.getX(), e.getY());
+      dragStart = false;
+      TaskController.runTaskLater(() -> {
+        if (m1Pressed) {
+          startClick = startPoint;
+          new MouseDragStartEvent(startClick).callEvent();
+          dragStart = true;
+        }
+      }, 5L);
+    }
   }
 
   @Override
@@ -47,7 +66,13 @@ public class MouseClickEventAdapter implements MouseListener {
     IntVect2D position = new IntVect2D(e.getX(), e.getY());
     MouseClickType clickType;
 
-    GameLogger.log("X: " + position.getX() + " | Y: " + position.getY());
+    if (SwingUtilities.isLeftMouseButton(e)) {
+      m1Pressed = false;
+      if (dragStart) {
+        new MouseDragEndEvent(startClick, position).callEvent();
+      }
+      dragStart = false;
+    }
 
     if (SwingUtilities.isLeftMouseButton(e)) {
       clickType = MouseClickType.LEFT;
@@ -79,4 +104,5 @@ public class MouseClickEventAdapter implements MouseListener {
   public void mouseExited(MouseEvent e) {
 
   }
+
 }

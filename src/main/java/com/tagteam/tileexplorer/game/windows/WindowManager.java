@@ -1,7 +1,9 @@
 package com.tagteam.tileexplorer.game.windows;
 
+import com.gestankbratwurst.le_engine.audio.GameAudioController;
 import com.gestankbratwurst.le_engine.graphics.GTask;
 import com.google.common.collect.Lists;
+import com.tagteam.tileexplorer.core.TileExplorerCore;
 import com.tagteam.tileexplorer.util.math.IntVect2D;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -22,9 +24,10 @@ public class WindowManager implements GTask {
   @Getter
   private static WindowManager instance;
 
-  public WindowManager() {
+  public WindowManager(TileExplorerCore core) {
     instance = this;
     this.activeWindows = Lists.newLinkedList();
+    core.registerEvents(new WindowDragListener(this));
   }
 
   private final LinkedList<GameWindow> activeWindows;

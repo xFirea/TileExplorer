@@ -3,6 +3,8 @@ package com.tagteam.tileexplorer.game.events;
 import com.google.common.base.Preconditions;
 import com.tagteam.tileexplorer.game.events.windowclick.ClickEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.ComponentClickEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.MouseDragEndEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.MouseDragStartEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.WindowClickEvent;
 import com.tagteam.tileexplorer.util.reflections.InvokableSingleParamObject;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -34,6 +36,8 @@ public class GameEventManager {
     eventMap.put(ClickEvent.class, new ObjectOpenHashSet<>());
     eventMap.put(WindowClickEvent.class, new ObjectOpenHashSet<>());
     eventMap.put(ComponentClickEvent.class, new ObjectOpenHashSet<>());
+    eventMap.put(MouseDragStartEvent.class, new ObjectOpenHashSet<>());
+    eventMap.put(MouseDragEndEvent.class, new ObjectOpenHashSet<>());
   }
 
   private final Map<Class<? extends Event>, Set<InvokableSingleParamObject>> eventMap;

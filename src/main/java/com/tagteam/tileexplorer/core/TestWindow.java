@@ -1,5 +1,6 @@
-package com.tagteam.tileexplorer;
+package com.tagteam.tileexplorer.core;
 
+import com.gestankbratwurst.le_engine.audio.GameAudioController;
 import com.tagteam.tileexplorer.game.events.windowclick.WindowClickEvent;
 import com.tagteam.tileexplorer.game.windows.GameWindow;
 import com.tagteam.tileexplorer.game.windows.components.CloseButton;
@@ -36,6 +37,16 @@ public class TestWindow extends GameWindow {
   @Override
   public void onClick(WindowClickEvent event) {
     GameLogger.log("I got clicked");
+  }
+
+  @Override
+  public boolean canBeDragged() {
+    return true;
+  }
+
+  @Override
+  protected void onMove(int newX, int newY) {
+    GameLogger.log("I got dragged");
   }
 
 }

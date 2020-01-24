@@ -50,18 +50,37 @@ public abstract class GameWindow implements GTask {
     WindowManager.getInstance().removeWindow(this);
   }
 
+  public void moveTo(IntVect2D newPosition) {
+    moveTo(newPosition.getX(), newPosition.getY());
+  }
+
+  public void moveTo(int x, int y) {
+    int width = this.boundingBox.getWidth();
+    int height = this.boundingBox.getHeight();
+    boundingBox = new IntBoundingBox(x, y, x + width, y + height);
+    onMove(x, y);
+  }
+
   public void focus() {
     WindowManager.getInstance().focusWindow(this);
   }
 
-  public void checkClick(WindowClickEvent event) {
+  public WindowComponent getComponentAt(IntVect2D globalVect) {
     for (WindowComponent component : this.windowComponents) {
-      if (component.isHitLocal(getRelativePosition(event.getClickedPosition()))) {
-        ComponentClickEvent componentClickEvent = new ComponentClickEvent(event, component);
-        componentClickEvent.callEvent();
-        component.handleClick(componentClickEvent);
-        return;
+      if (component.isHitLocal(getRelativePosition(globalVect))) {
+        return component;
       }
+    }
+    return null;
+  }
+
+  public void checkClick(WindowClickEvent event) {
+    WindowComponent hitComponent = getComponentAt(event.getClickedPosition());
+    if (hitComponent != null) {
+      ComponentClickEvent componentClickEvent = new ComponentClickEvent(event, hitComponent);
+      componentClickEvent.callEvent();
+      hitComponent.handleClick(componentClickEvent);
+      return;
     }
     onClick(event);
   }
@@ -85,5 +104,9 @@ public abstract class GameWindow implements GTask {
   public abstract void onClose();
 
   public abstract void onClick(WindowClickEvent event);
+
+  public abstract boolean canBeDragged();
+
+  protected abstract void onMove(int newX, int newY);
 
 }

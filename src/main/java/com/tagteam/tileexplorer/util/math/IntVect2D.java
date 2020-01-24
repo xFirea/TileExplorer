@@ -37,4 +37,13 @@ public class IntVect2D {
     return x >= otherVect.x && y >= otherVect.y;
   }
 
+  @Override
+  public boolean equals(Object other) {
+    if (!(other instanceof IntVect2D)) {
+      return false;
+    }
+    IntVect2D otherVect = (IntVect2D) other;
+    return otherVect.x == this.x && otherVect.y == this.y;
+  }
+
 }
