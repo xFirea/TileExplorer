@@ -12,4 +12,6 @@ package com.tagteam.tileexplorer.game.tiles;
 
 public interface Tile {
 
+  String getType();
+
 }
