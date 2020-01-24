@@ -93,6 +93,7 @@ public abstract class GameWindow implements GTask {
     for (WindowComponent component : windowComponents) {
       component.accept(graphics);
     }
+    render(graphics);
   }
 
   public boolean contains(IntVect2D pointer) {
@@ -108,5 +109,7 @@ public abstract class GameWindow implements GTask {
   public abstract boolean canBeDragged();
 
   protected abstract void onMove(int newX, int newY);
+
+  protected abstract void render(Graphics graphics);
 
 }

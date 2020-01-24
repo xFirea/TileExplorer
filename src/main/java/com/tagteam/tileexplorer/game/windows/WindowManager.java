@@ -1,6 +1,5 @@
 package com.tagteam.tileexplorer.game.windows;
 
-import com.gestankbratwurst.le_engine.audio.GameAudioController;
 import com.gestankbratwurst.le_engine.graphics.GTask;
 import com.google.common.collect.Lists;
 import com.tagteam.tileexplorer.core.TileExplorerCore;

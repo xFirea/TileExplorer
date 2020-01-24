@@ -1,12 +1,12 @@
-package com.tagteam.tileexplorer.core;
+package com.tagteam.tileexplorer;
 
-import com.gestankbratwurst.le_engine.audio.GameAudioController;
 import com.tagteam.tileexplorer.game.events.windowclick.WindowClickEvent;
 import com.tagteam.tileexplorer.game.windows.GameWindow;
 import com.tagteam.tileexplorer.game.windows.components.CloseButton;
 import com.tagteam.tileexplorer.util.GameLogger;
 import com.tagteam.tileexplorer.util.math.IntBoundingBox;
 import java.awt.Color;
+import java.awt.Graphics;
 
 /*******************************************************
  * Copyright (C) Gestankbratwurst suotokka@gmail.com
@@ -47,6 +47,11 @@ public class TestWindow extends GameWindow {
   @Override
   protected void onMove(int newX, int newY) {
     GameLogger.log("I got dragged");
+  }
+
+  @Override
+  protected void render(Graphics graphics) {
+
   }
 
 }

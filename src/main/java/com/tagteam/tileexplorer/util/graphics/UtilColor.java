@@ -1,6 +1,7 @@
 package com.tagteam.tileexplorer.util.graphics;
 
 import java.awt.Color;
+import java.util.concurrent.ThreadLocalRandom;
 
 /*******************************************************
  * Copyright (C) Gestankbratwurst suotokka@gmail.com
@@ -16,6 +17,11 @@ public class UtilColor {
   // TODO compute brighter color
   public static Color brighten(Color color) {
     return color;
+  }
+
+  public static Color getRandomColor() {
+    ThreadLocalRandom random = ThreadLocalRandom.current();
+    return new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255));
   }
 
 }
