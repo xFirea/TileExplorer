@@ -1,6 +1,5 @@
 package com.tagteam.tileexplorer.game.gameflow;
 
-import com.tagteam.tileexplorer.TestTile;
 import com.tagteam.tileexplorer.game.events.windowclick.WindowClickEvent;
 import com.tagteam.tileexplorer.game.windows.GameWindow;
 import com.tagteam.tileexplorer.util.math.IntBoundingBox;
@@ -19,16 +18,15 @@ public class GameBoard extends GameWindow {
   }
 
   private final int tileSize;
-  private Tile[][] tileField = new Tile[TILE_AMOUNT][TILE_AMOUNT];
+  private TileMap tileMap = new TileMap(TILE_AMOUNT);
 
   public Tile getTile(int posX, int posY) {
-    return tileField[posX][posY];
+    return tileMap.getTile(posX, posY);
   }
 
   public void setTile(int posX, int posY, Tile tile) {
-    tileField[posX][posY] = tile;
+    tileMap.setTile(posX, posY, tile);
   }
-
 
   private void fillTiles() {
 
@@ -38,7 +36,9 @@ public class GameBoard extends GameWindow {
 
         IntVect2D position = new IntVect2D(upperLeft.getX() + (x * tileSize), upperLeft.getY() + (y * tileSize));
 
-        Tile tile = new TestTile(x, y, tileSize, position, new Environment(Biome.DESERT));
+        Environment environment = TileGenerator.getGeneratedEnvironment(tileMap, x, y);
+
+        Tile tile = new Tile(x, y, tileSize, position, environment);
 
         setTile(x, y, tile);
       }
@@ -57,7 +57,13 @@ public class GameBoard extends GameWindow {
 
   @Override
   public void onClick(WindowClickEvent event) {
-
+    this.focus();
+    IntVect2D relativePos = this.getRelativePosition(event.getClickedPosition());
+    int x = relativePos.getX() / tileSize;
+    int y = relativePos.getY() / tileSize;
+    Tile tile = this.getTile(x, y);
+    System.out.println("Temp: " + tile.getEnvironment().getCurrentTemperature());
+    System.out.println("Biom: " + tile.getEnvironment().getBiome());
   }
 
   @Override

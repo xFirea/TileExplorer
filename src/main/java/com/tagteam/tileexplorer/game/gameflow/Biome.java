@@ -1,7 +1,5 @@
 package com.tagteam.tileexplorer.game.gameflow;
 
-import com.tagteam.tileexplorer.game.user.GameUser;
-import java.util.function.Predicate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,19 +12,30 @@ import lombok.Getter;
  * permission of the owner.
  *
  */
+
 @AllArgsConstructor
 public enum Biome {
 
-  PLAINS("Wiesen", 25.0D),
-  FOREST("Laubwald", 18.0D),
-  DENSE_FOREST("Dichter Laubwald", 16.0D),
-  DESERT("Wüste", 40.0D),
-  LAKE("See", 22.0D),
-  OASIS("Oase", 35.0D);
+  PLAINS("Wiesen", 25.0D, 98, 201, 47),
+  FOREST("Laubwald", 18.0D, 75, 122, 43),
+  DENSE_FOREST("Dichter Laubwald", 16.0D, 57, 94, 32),
+  DESERT("Wüste", 40.0D, 178, 169, 40),
+  LAKE("See", 12.0D, 40, 146, 178),
+  OASIS("Oase", 35.0D, 40, 178, 150);
 
   @Getter
   private final String displayName;
   @Getter
   private final double baseTemperature;
+  @Getter
+  private final int baseRed;
+  @Getter
+  private final int baseGreen;
+  @Getter
+  private final int baseBlue;
+
+  public int[] getRGB() {
+    return new int[]{baseRed, baseGreen, baseBlue};
+  }
 
 }
