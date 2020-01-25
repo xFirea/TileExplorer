@@ -12,6 +12,7 @@ import lombok.Getter;
  * permission of the owner.
  *
  */
+
 public class GameUser {
 
   @Getter

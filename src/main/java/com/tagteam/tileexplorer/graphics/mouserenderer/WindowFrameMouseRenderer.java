@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
  * permission of the owner.
  *
  */
+
 @AllArgsConstructor
 public class WindowFrameMouseRenderer implements CursorRenderer {
 

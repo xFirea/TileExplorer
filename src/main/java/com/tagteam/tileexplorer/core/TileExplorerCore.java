@@ -9,8 +9,11 @@ import com.gestankbratwurst.le_engine.logic.GameScheduler;
 import com.gestankbratwurst.le_engine.logic.LogicPrecision;
 import com.gestankbratwurst.le_engine.startmenu.GameResolution;
 import com.google.common.base.Preconditions;
+import com.tagteam.tileexplorer.TestWindow;
 import com.tagteam.tileexplorer.game.events.GameEventManager;
 import com.tagteam.tileexplorer.game.events.Listener;
+import com.tagteam.tileexplorer.game.gameflow.GameBoard;
+import com.tagteam.tileexplorer.game.keylistener.EscapeKeyListener;
 import com.tagteam.tileexplorer.game.user.GameUser;
 import com.tagteam.tileexplorer.game.windows.WindowManager;
 import com.tagteam.tileexplorer.graphics.Background;
@@ -91,6 +94,7 @@ public class TileExplorerCore {
     GameLogger.log("Swing setup...");
     engineCore.addMouseListener(new MouseClickEventAdapter(eventManager, windowManager));
     engineCore.addMouseMotionListener(new MouseMoveEventAdapter(GameUser.get().getGameCursor()));
+    engineCore.addKeyListener(new EscapeKeyListener(engineCore));
   }
 
   private void setupGraphics() {
@@ -104,7 +108,9 @@ public class TileExplorerCore {
     graphicController.setFpsColor(Color.GREEN);
     graphicController.setInternalFpsDrawerEnabled(true);
 
+    //TODO remove DEBUG
     windowManager.addWindow(new TestWindow(new IntBoundingBox(0, 0, 200, 200)));
+    windowManager.addWindow(new GameBoard(50, 100, 100));
   }
 
   private void setupLogic() {
