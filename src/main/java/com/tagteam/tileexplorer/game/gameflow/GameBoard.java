@@ -4,6 +4,7 @@ import com.tagteam.tileexplorer.game.events.windowclick.WindowClickEvent;
 import com.tagteam.tileexplorer.game.gameflow.generators.TileGenerator;
 import com.tagteam.tileexplorer.game.gameflow.tiles.Environment;
 import com.tagteam.tileexplorer.game.gameflow.tiles.Tile;
+import com.tagteam.tileexplorer.game.gameflow.tiles.pathfinders.BiomeFetcher;
 import com.tagteam.tileexplorer.game.gameflow.world.TileMap;
 import com.tagteam.tileexplorer.game.windows.GameWindow;
 import com.tagteam.tileexplorer.util.math.IntBoundingBox;
@@ -101,9 +102,20 @@ public class GameBoard extends GameWindow {
     IntVect2D relativePos = this.getRelativePosition(event.getClickedPosition());
     int x = (int) ((double) relativePos.getX() / (double) tileSize);
     int y = (int) ((double) relativePos.getY() / (double) tileSize);
-    Tile tile = this.getTile(x, y);
+    int tileX = currentX - visibleRadius + x;
+    int tileY = currentY - visibleRadius + y;
+    Tile tile = null;
+    if (!(x < 0 || x > tileMap.getSize() || y < 0 || y > tileMap.getSize())) {
+      tile = this.getTile(tileX, tileY);
+    }
+    if (tile == null) {
+      System.out.println("Kein Tile");
+      return;
+    }
     System.out.println("Temp: " + tile.getEnvironment().getTemp());
     System.out.println("Biom: " + tile.getEnvironment().getBiome());
+
+    System.out.println("[Debug] Biomesize: " + new BiomeFetcher(tileMap, tile.getPostion().getX(), tile.getPostion().getY()).start());
   }
 
   @Override

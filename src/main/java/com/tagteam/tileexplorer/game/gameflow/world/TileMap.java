@@ -25,12 +25,14 @@ public class TileMap {
   private final Tile[][] tileArray;
 
   public Tile getTile(int x, int y) {
-    Preconditions.checkArgument(x < size && y < size);
-    return tileArray[x][y];
+    if (!(x < 0 || x >= size || y < 0 || y >= size)) {
+      return tileArray[x][y];
+    }
+    return null;
   }
 
   public void setTile(int x, int y, Tile tile) {
-    Preconditions.checkArgument(x < size && y < size);
+    Preconditions.checkArgument(!(x < 0 || x >= size || y < 0 || y >= size));
     tileArray[x][y] = tile;
   }
 

@@ -58,4 +58,8 @@ public class Tile implements GTask {
     //UtilGraphics.fillRect(box, graphics);
   }
 
+  public IntVect2D getPostion(){
+    return new IntVect2D(boardX, boardY);
+  }
+
 }

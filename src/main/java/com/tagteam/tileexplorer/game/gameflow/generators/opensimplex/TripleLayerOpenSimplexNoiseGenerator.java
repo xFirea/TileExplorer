@@ -100,7 +100,7 @@ public class TripleLayerOpenSimplexNoiseGenerator implements TileGenerator {
       biome = Biome.SEA;
     } else if (level < seaLevel + 0.025) {
       biome = beachDomain.getBiome(temp, level, vegetation);
-    } else if (level < seaLevel + 0.4) {
+    } else if (level < seaLevel + 0.38) {
       biome = valleyDomain.getBiome(temp, level, vegetation);
     } else {
       double deltaMountain = evalHeight(posX, posY);

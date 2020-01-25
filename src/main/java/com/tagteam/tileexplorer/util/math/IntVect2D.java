@@ -1,5 +1,6 @@
 package com.tagteam.tileexplorer.util.math;
 
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -44,6 +45,11 @@ public class IntVect2D {
     }
     IntVect2D otherVect = (IntVect2D) other;
     return otherVect.x == this.x && otherVect.y == this.y;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(x, y);
   }
 
 }
