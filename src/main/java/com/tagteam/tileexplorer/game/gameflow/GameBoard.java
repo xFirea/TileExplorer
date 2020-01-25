@@ -2,7 +2,6 @@ package com.tagteam.tileexplorer.game.gameflow;
 
 import com.tagteam.tileexplorer.game.events.windowclick.WindowClickEvent;
 import com.tagteam.tileexplorer.game.gameflow.generators.TileGenerator;
-import com.tagteam.tileexplorer.game.gameflow.tiles.Environment;
 import com.tagteam.tileexplorer.game.gameflow.tiles.Tile;
 import com.tagteam.tileexplorer.game.gameflow.tiles.pathfinders.BiomeFetcher;
 import com.tagteam.tileexplorer.game.gameflow.world.TileMap;
@@ -16,16 +15,17 @@ import lombok.Setter;
 
 public class GameBoard extends GameWindow {
 
-  public GameBoard(int tileSize, int posX, int posY, TileGenerator generator, int boardSize, int visibleRadius) {
+  public GameBoard(int tileSize, int posX, int posY, TileGenerator generator, int boardSize, int visibleRadius, int lakeSize) {
     super(new IntBoundingBox(posX, posY, posX + (tileSize * ((visibleRadius * 2) + 1)), posY + (tileSize * ((visibleRadius * 2) + 1))),
         new Color(103, 126, 146));
     this.boardSize = boardSize;
+    this.lakeSize = lakeSize;
     this.visibleRadius = visibleRadius;
     this.tileMap = new TileMap(boardSize);
     this.tileSize = tileSize;
     this.fillTiles(generator);
-    currentX = boardSize / 2 + 1;
-    currentY = currentX;
+    this.currentX = boardSize / 2 + 1;
+    this.currentY = boardSize / 2 + 1;
   }
 
   @Getter
@@ -33,13 +33,15 @@ public class GameBoard extends GameWindow {
   private int currentX;
   @Getter
   @Setter
-  private int currentY = 0;
+  private int currentY;
   private final int boardSize;
   @Getter
   private int visibleRadius;
   @Getter
   private int tileSize;
   private final TileMap tileMap;
+  private final int lakeSize;
+  private long seed = 0;
 
   public void setTileSize(int size) {
     tileSize = size;
@@ -77,13 +79,8 @@ public class GameBoard extends GameWindow {
   }
 
   public void fillTiles(TileGenerator generator) {
-    for (int x = 0; x < boardSize; x++) {
-      for (int y = 0; y < boardSize; y++) {
-        Environment environment = generator.getGeneratedEnvironment(tileMap, x, y);
-        Tile tile = new Tile(x, y, tileSize, environment);
-        setTile(x, y, tile);
-      }
-    }
+    seed = generator.getSeed();
+    generator.fillMap(this.tileMap, this.tileSize, this.lakeSize);
   }
 
   @Override
@@ -115,7 +112,8 @@ public class GameBoard extends GameWindow {
     System.out.println("Temp: " + tile.getEnvironment().getTemp());
     System.out.println("Biom: " + tile.getEnvironment().getBiome());
 
-    System.out.println("[Debug] Biomesize: " + new BiomeFetcher(tileMap, tile.getPostion().getX(), tile.getPostion().getY()).start());
+    System.out
+        .println("[Debug] Biomesize: " + new BiomeFetcher(tileMap, tile.getPostion().getX(), tile.getPostion().getY()).start().size());
   }
 
   @Override
@@ -130,6 +128,8 @@ public class GameBoard extends GameWindow {
 
   @Override
   protected void render(Graphics graphics) {
+    graphics.setColor(Color.BLACK);
+    graphics.drawString("Seed: " + seed, this.getPosition().getX() + 2, this.getPosition().getY() - 5);
     for (int x = -visibleRadius; x < visibleRadius + 1; x++) {
       for (int y = -visibleRadius; y < visibleRadius + 1; y++) {
 

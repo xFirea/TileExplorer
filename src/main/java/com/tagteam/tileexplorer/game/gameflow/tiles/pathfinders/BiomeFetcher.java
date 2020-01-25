@@ -39,7 +39,7 @@ public class BiomeFetcher {
   private HashSet<IntVect2D> biomeTiles = new HashSet<>();
   private Biome biome;
 
-  public int start() {
+  public HashSet<IntVect2D> start() {
 
     biomeTiles.add(new IntVect2D(startX, startY));
     biomeSize = 1;
@@ -54,7 +54,7 @@ public class BiomeFetcher {
 
     } while (!possibleTiles.isEmpty());
 
-    return biomeSize;
+    return biomeTiles;
   }
 
   private void validatePossibleTiles() {

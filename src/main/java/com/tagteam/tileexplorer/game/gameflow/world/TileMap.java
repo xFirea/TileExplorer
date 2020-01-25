@@ -2,6 +2,9 @@ package com.tagteam.tileexplorer.game.gameflow.world;
 
 import com.google.common.base.Preconditions;
 import com.tagteam.tileexplorer.game.gameflow.tiles.Tile;
+import com.tagteam.tileexplorer.util.game.TileMapIterator;
+import java.util.Iterator;
+import java.util.function.Consumer;
 import lombok.Getter;
 
 /*******************************************************
@@ -13,7 +16,7 @@ import lombok.Getter;
  * permission of the owner.
  *
  */
-public class TileMap {
+public class TileMap implements Iterable<Tile> {
 
   public TileMap(int size) {
     this.tileArray = new Tile[size][size];
@@ -34,6 +37,20 @@ public class TileMap {
   public void setTile(int x, int y, Tile tile) {
     Preconditions.checkArgument(!(x < 0 || x >= size || y < 0 || y >= size));
     tileArray[x][y] = tile;
+  }
+
+  @Override
+  public Iterator<Tile> iterator() {
+    return new TileMapIterator(this);
+  }
+
+  @Override
+  public void forEach(Consumer<? super Tile> action) {
+    for (int x = 0; x < size; x++) {
+      for (int y = 0; y < size; y++) {
+        action.accept(getTile(x, y));
+      }
+    }
   }
 
 }

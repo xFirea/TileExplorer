@@ -7,6 +7,7 @@ import com.tagteam.tileexplorer.util.math.IntVect2D;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ import lombok.Setter;
  *
  */
 
+@EqualsAndHashCode
 public class Tile implements GTask {
 
   public Tile(int boardX, int boardY, int tileSize, Environment environment) {

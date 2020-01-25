@@ -1,10 +1,6 @@
 package com.tagteam.tileexplorer.game.gameflow.generators.opensimplex;
 
 import com.tagteam.tileexplorer.game.gameflow.generators.TileGenerator;
-import com.tagteam.tileexplorer.game.gameflow.generators.opensimplex.BeachDomain;
-import com.tagteam.tileexplorer.game.gameflow.generators.opensimplex.MountainDomain;
-import com.tagteam.tileexplorer.game.gameflow.generators.opensimplex.SimplexHeightDomain;
-import com.tagteam.tileexplorer.game.gameflow.generators.opensimplex.ValleyDomain;
 import com.tagteam.tileexplorer.game.gameflow.tiles.Biome;
 import com.tagteam.tileexplorer.game.gameflow.tiles.Environment;
 import com.tagteam.tileexplorer.game.gameflow.world.TileMap;
@@ -25,6 +21,7 @@ public class TripleLayerOpenSimplexNoiseGenerator implements TileGenerator {
 
   public TripleLayerOpenSimplexNoiseGenerator(long seed, double seaLevelScale,
       double heightMapScale, double tempScale, double vegetationScale, double seaLevel) {
+    this.seed = seed;
     this.random = ThreadLocalRandom.current();
     this.seaLevelScale = seaLevelScale;
     this.vegetationScale = vegetationScale;
@@ -41,6 +38,8 @@ public class TripleLayerOpenSimplexNoiseGenerator implements TileGenerator {
     this.valleyDomain = new ValleyDomain();
     this.mountainDomain = new MountainDomain();
   }
+
+  private final long seed;
 
   private final ThreadLocalRandom random;
   private final OpenSimplexNoise seaLevelNoise1;
@@ -86,6 +85,11 @@ public class TripleLayerOpenSimplexNoiseGenerator implements TileGenerator {
 
   private double evalTemp(int x, int y) {
     return (tempNoise.eval(x / tempScale * 0.35, y / tempScale * 0.35) + 0.5) * 40;
+  }
+
+  @Override
+  public long getSeed() {
+    return seed;
   }
 
   @Override

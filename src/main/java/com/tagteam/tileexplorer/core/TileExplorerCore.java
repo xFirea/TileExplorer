@@ -134,7 +134,7 @@ public class TileExplorerCore {
 
     TripleLayerOpenSimplexNoiseGenerator generator = new TripleLayerOpenSimplexNoiseGenerator(System.currentTimeMillis(), 12.5, 10, 10, 10,0);
 
-    GameBoard board = new GameBoard(4, 100, 100, generator, GameOptions.MAP_SIZE, GameOptions.BASE_VISIBLE_RADIUS);
+    GameBoard board = new GameBoard(4, 100, 100, generator, GameOptions.MAP_SIZE, GameOptions.BASE_VISIBLE_RADIUS, 320);
 
     //GameBoard board = new GameBoard(5, 100, 100, new OpenSimplexNoiseGenerator(0, 10D));
 
