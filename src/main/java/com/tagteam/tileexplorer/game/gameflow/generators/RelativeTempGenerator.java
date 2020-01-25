@@ -1,3 +1,4 @@
+/*
 package com.tagteam.tileexplorer.game.gameflow.generators;
 
 import com.google.common.collect.Lists;
@@ -58,3 +59,5 @@ public class RelativeTempGenerator implements TileGenerator {
   }
 
 }
+
+*/

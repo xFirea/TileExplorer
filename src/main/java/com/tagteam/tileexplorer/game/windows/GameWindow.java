@@ -32,7 +32,7 @@ public abstract class GameWindow implements GTask {
   }
 
   @Getter
-  private IntBoundingBox boundingBox;
+  protected IntBoundingBox boundingBox;
   protected Color backgroundColor;
   protected final Set<WindowComponent> windowComponents;
 

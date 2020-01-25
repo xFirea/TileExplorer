@@ -14,10 +14,10 @@ import lombok.AllArgsConstructor;
  *
  */
 @AllArgsConstructor
-public class InvokableSingleParamObject {
+public class InvokableSingleParamObject<T> {
 
   private final Method method;
-  private final Object object;
+  private final T object;
 
   public void invoke(Object param) {
     try {
