@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 /*******************************************************
  * Copyright (C) Gestankbratwurst suotokka@gmail.com
@@ -59,7 +60,18 @@ public class UtilGraphics {
       height += 2;
       startColor = UtilColor.brighten(startColor);
       graphics.setColor(startColor);
+
     }
+  }
+
+  //private static final Table<BufferedImage, Double, BufferedImage> SCALED_CACHE = HashBasedTable.create();
+
+  public static void drawScaledImage(BufferedImage image, IntBoundingBox box, Graphics graphics) {
+    int x = box.getPosition().getX();
+    int y = box.getPosition().getY();
+    int width = box.getWidth();
+    int height = box.getHeight();
+    graphics.drawImage(image, x, y, width, height, null);
   }
 
   public static void drawCenterText(IntVect2D position, Graphics graphics, String text, Font font) {

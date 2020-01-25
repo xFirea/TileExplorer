@@ -1,10 +1,8 @@
 package com.tagteam.tileexplorer.game.gameflow.tiles;
 
-import com.tagteam.tileexplorer.game.gameflow.tiles.Biome;
 import com.tagteam.tileexplorer.util.graphics.UtilColor;
 import java.awt.Color;
 import lombok.Getter;
-import lombok.Setter;
 
 public class Environment {
 
@@ -12,24 +10,30 @@ public class Environment {
     this(biome, 0D);
   }
 
-  public Environment(Biome biome, double tempOffset) {
+  public Environment(Biome biome, double temp) {
     this.biome = biome;
-    this.tempOffset = tempOffset;
+    this.temp = temp;
     int[] baseRGB = biome.getRGB();
-    UtilColor.randomShadeOffset(baseRGB, 6);
+    UtilColor.randomShadeOffset(baseRGB, 3);
+
+    if (temp < 0) {
+      int whiteAdd = (int) Math.abs((8D / 20D) * temp);
+      baseRGB[0] -= whiteAdd;
+      baseRGB[1] -= whiteAdd;
+      baseRGB[2] -= whiteAdd;
+    } else {
+      int redAdd = (int) Math.abs((8D / 60D) * temp);
+      baseRGB[0] += redAdd;
+    }
+
     this.color = new Color(baseRGB[0], baseRGB[1], baseRGB[2]);
   }
 
   @Getter
   private final Biome biome;
   @Getter
-  @Setter
-  private double tempOffset;
+  private double temp;
   private Color color;
-
-  public double getCurrentTemperature() {
-    return biome.getBaseTemperature() + tempOffset;
-  }
 
   public Color getColor() {
     return color;

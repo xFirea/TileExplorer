@@ -9,17 +9,17 @@ import com.gestankbratwurst.le_engine.logic.GameScheduler;
 import com.gestankbratwurst.le_engine.logic.LogicPrecision;
 import com.gestankbratwurst.le_engine.startmenu.GameResolution;
 import com.google.common.base.Preconditions;
-import com.tagteam.tileexplorer.TestWindow;
 import com.tagteam.tileexplorer.game.events.GameEventManager;
 import com.tagteam.tileexplorer.game.events.Listener;
 import com.tagteam.tileexplorer.game.gameflow.GameBoard;
+import com.tagteam.tileexplorer.game.gameflow.generators.TripleLayerOpenSimplexNoiseGenerator;
 import com.tagteam.tileexplorer.game.keylistener.EscapeKeyListener;
+import com.tagteam.tileexplorer.game.keylistener.MapDebugKeyListener;
 import com.tagteam.tileexplorer.game.user.GameUser;
 import com.tagteam.tileexplorer.game.windows.WindowManager;
 import com.tagteam.tileexplorer.graphics.Background;
 import com.tagteam.tileexplorer.util.GameLogger;
 import com.tagteam.tileexplorer.util.UtilResource;
-import com.tagteam.tileexplorer.util.math.IntBoundingBox;
 import com.tagteam.tileexplorer.util.swingutil.MouseClickEventAdapter;
 import com.tagteam.tileexplorer.util.swingutil.MouseMoveEventAdapter;
 import java.awt.Color;
@@ -85,9 +85,13 @@ public class TileExplorerCore {
 
   private void setup() {
     setupSwing();
+    GameOptions.MAP_SIZE = 200;
+    GameOptions.BASE_VISIBLE_RADIUS = 100;
+    GameOptions.GAME_RESOLUTION = gameResolution;
     setupGraphics();
     setupLogic();
     setupAudio();
+    startGame();
   }
 
   private void setupSwing() {
@@ -107,10 +111,6 @@ public class TileExplorerCore {
     graphicController.setFpsLimit(60);
     graphicController.setFpsColor(Color.GREEN);
     graphicController.setInternalFpsDrawerEnabled(true);
-
-    //TODO remove DEBUG
-    windowManager.addWindow(new TestWindow(new IntBoundingBox(0, 0, 200, 200)));
-    windowManager.addWindow(new GameBoard(50, 100, 100));
   }
 
   private void setupLogic() {
@@ -126,6 +126,22 @@ public class TileExplorerCore {
     audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("click3.wav")), "UI_CLICK_3");
     audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("drag.wav")), "DRAG");
     AudioController.init(audioController);
+  }
+
+  private void startGame() {
+    // TODO debug
+    //windowManager.addWindow(new TestWindow(new IntBoundingBox(0, 0, 200, 200)));
+
+    TripleLayerOpenSimplexNoiseGenerator generator = new TripleLayerOpenSimplexNoiseGenerator(System.currentTimeMillis(), 12.5, 10, 10, 10,0);
+
+    GameBoard board = new GameBoard(4, 100, 100, generator, GameOptions.MAP_SIZE, GameOptions.BASE_VISIBLE_RADIUS);
+
+    //GameBoard board = new GameBoard(5, 100, 100, new OpenSimplexNoiseGenerator(0, 10D));
+
+    windowManager.addWindow(board);
+
+    this.engineCore.addKeyListener(new MapDebugKeyListener(board));
+
   }
 
 }

@@ -49,7 +49,7 @@ public class GameEventManager {
         Preconditions.checkState(params.length == 1);
         Class<?> paramType = params[0];
         if (Event.class.isAssignableFrom(paramType)) {
-          eventMap.get(paramType).add(new InvokableSingleParamObject(method, listener));
+          eventMap.get(paramType).add(new InvokableSingleParamObject<>(method, listener));
         }
       }
     }
