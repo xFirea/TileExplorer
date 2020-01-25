@@ -1,9 +1,9 @@
 package com.tagteam.tileexplorer.game.gameflow;
 
 import com.tagteam.tileexplorer.game.events.windowclick.WindowClickEvent;
-import com.tagteam.tileexplorer.game.gameflow.tiles.Tile;
-import com.tagteam.tileexplorer.game.gameflow.tiles.Environment;
 import com.tagteam.tileexplorer.game.gameflow.generators.TileGenerator;
+import com.tagteam.tileexplorer.game.gameflow.tiles.Environment;
+import com.tagteam.tileexplorer.game.gameflow.tiles.Tile;
 import com.tagteam.tileexplorer.game.gameflow.world.TileMap;
 import com.tagteam.tileexplorer.game.windows.GameWindow;
 import com.tagteam.tileexplorer.util.math.IntBoundingBox;
