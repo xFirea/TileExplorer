@@ -1,5 +1,6 @@
-package com.tagteam.tileexplorer.game.gameflow.generators;
+package com.tagteam.tileexplorer.game.gameflow.generators.opensimplex;
 
+import com.tagteam.tileexplorer.game.gameflow.generators.TileGenerator;
 import com.tagteam.tileexplorer.game.gameflow.generators.opensimplex.BeachDomain;
 import com.tagteam.tileexplorer.game.gameflow.generators.opensimplex.MountainDomain;
 import com.tagteam.tileexplorer.game.gameflow.generators.opensimplex.SimplexHeightDomain;
@@ -71,7 +72,12 @@ public class TripleLayerOpenSimplexNoiseGenerator implements TileGenerator {
   }
 
   private double evalVegetation(int x, int y) {
-    return vegetationNoise.eval(x / vegetationScale * 0.5, y / vegetationScale * 0.5) / 4D;
+    double vegetation = vegetationNoise.eval(x / vegetationScale * 0.5, y / vegetationScale * 0.5);
+    double off = vegetationNoise.eval(x / vegetationScale * 1.95, y / vegetationScale * 2);
+    off -= vegetationNoise.eval(x / vegetationScale * 2, y / vegetationScale * 1.95);
+    off /= 2;
+    vegetation += off;
+    return vegetation;
   }
 
   private double evalHeight(int x, int y) {
@@ -94,7 +100,7 @@ public class TripleLayerOpenSimplexNoiseGenerator implements TileGenerator {
       biome = Biome.SEA;
     } else if (level < seaLevel + 0.025) {
       biome = beachDomain.getBiome(temp, level, vegetation);
-    } else if (level < seaLevel + 0.2) {
+    } else if (level < seaLevel + 0.4) {
       biome = valleyDomain.getBiome(temp, level, vegetation);
     } else {
       double deltaMountain = evalHeight(posX, posY);

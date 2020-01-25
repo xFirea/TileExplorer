@@ -23,11 +23,13 @@ public class GameBoard extends GameWindow {
     this.tileMap = new TileMap(boardSize);
     this.tileSize = tileSize;
     this.fillTiles(generator);
+    currentX = boardSize / 2 + 1;
+    currentY = currentX;
   }
 
   @Getter
   @Setter
-  private int currentX = 0;
+  private int currentX;
   @Getter
   @Setter
   private int currentY = 0;

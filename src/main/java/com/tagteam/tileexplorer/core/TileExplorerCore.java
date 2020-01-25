@@ -12,7 +12,7 @@ import com.google.common.base.Preconditions;
 import com.tagteam.tileexplorer.game.events.GameEventManager;
 import com.tagteam.tileexplorer.game.events.Listener;
 import com.tagteam.tileexplorer.game.gameflow.GameBoard;
-import com.tagteam.tileexplorer.game.gameflow.generators.TripleLayerOpenSimplexNoiseGenerator;
+import com.tagteam.tileexplorer.game.gameflow.generators.opensimplex.TripleLayerOpenSimplexNoiseGenerator;
 import com.tagteam.tileexplorer.game.keylistener.EscapeKeyListener;
 import com.tagteam.tileexplorer.game.keylistener.MapDebugKeyListener;
 import com.tagteam.tileexplorer.game.user.GameUser;

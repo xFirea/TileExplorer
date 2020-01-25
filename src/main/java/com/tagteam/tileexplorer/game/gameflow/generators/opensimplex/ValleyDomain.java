@@ -23,6 +23,7 @@ public class ValleyDomain implements SimplexHeightDomain {
       } else if (vegetation < 0.75) {
         return Biome.FOREST;
       } else {
+        System.out.println("Dense");
         return Biome.DENSE_FOREST;
       }
     } else {

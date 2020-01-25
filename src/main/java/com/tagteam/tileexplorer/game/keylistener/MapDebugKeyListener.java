@@ -1,7 +1,7 @@
 package com.tagteam.tileexplorer.game.keylistener;
 
 import com.tagteam.tileexplorer.game.gameflow.GameBoard;
-import com.tagteam.tileexplorer.game.gameflow.generators.TripleLayerOpenSimplexNoiseGenerator;
+import com.tagteam.tileexplorer.game.gameflow.generators.opensimplex.TripleLayerOpenSimplexNoiseGenerator;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import lombok.AllArgsConstructor;
