@@ -71,7 +71,7 @@ public class TripleLayerOpenSimplexNoiseGenerator implements TileGenerator {
   }
 
   private double evalVegetation(int x, int y) {
-    double vegetation = vegetationNoise.eval(x / vegetationScale * 0.5, y / vegetationScale * 0.5);
+    double vegetation = vegetationNoise.eval(x / vegetationScale * 0.3, y / vegetationScale * 0.3);
     double off = vegetationNoise.eval(x / vegetationScale * 1.95, y / vegetationScale * 2);
     off -= vegetationNoise.eval(x / vegetationScale * 2, y / vegetationScale * 1.95);
     off /= 2;
@@ -84,7 +84,7 @@ public class TripleLayerOpenSimplexNoiseGenerator implements TileGenerator {
   }
 
   private double evalTemp(int x, int y) {
-    return (tempNoise.eval(x / tempScale * 0.35, y / tempScale * 0.35) + 0.5) * 40;
+    return (tempNoise.eval(x / tempScale * 0.225, y / tempScale * 0.225) + 0.5) * 40;
   }
 
   @Override
