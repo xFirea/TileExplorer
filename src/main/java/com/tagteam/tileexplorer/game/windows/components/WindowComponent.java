@@ -2,11 +2,13 @@ package com.tagteam.tileexplorer.game.windows.components;
 
 import com.gestankbratwurst.le_engine.graphics.GTask;
 import com.tagteam.tileexplorer.game.events.windowclick.ComponentClickEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.ComponentMouseEnterEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.MouseDragEndEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.MouseDragStartEvent;
 import com.tagteam.tileexplorer.game.windows.GameWindow;
 import com.tagteam.tileexplorer.util.math.IntBoundingBox;
 import com.tagteam.tileexplorer.util.math.IntVect2D;
+import lombok.EqualsAndHashCode;
 
 /*******************************************************
  * Copyright (C) Gestankbratwurst suotokka@gmail.com
@@ -17,6 +19,8 @@ import com.tagteam.tileexplorer.util.math.IntVect2D;
  * permission of the owner.
  *
  */
+
+@EqualsAndHashCode
 public abstract class WindowComponent implements GTask {
 
   public WindowComponent(GameWindow host, int relativeX, int relativeY, int width, int height) {
@@ -64,5 +68,7 @@ public abstract class WindowComponent implements GTask {
   public abstract void handleDragStart(MouseDragStartEvent event);
 
   public abstract void handleDragEnd(MouseDragEndEvent event);
+
+  public abstract void handleMouseEnter(ComponentMouseEnterEvent event);
 
 }

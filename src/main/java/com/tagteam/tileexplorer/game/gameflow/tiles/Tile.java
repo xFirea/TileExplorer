@@ -57,10 +57,9 @@ public class Tile implements GTask {
         currentGlobalPosition.getY() + tileSize);
     BufferedImage image = environment.getBiome().getBufferedImage();
     UtilGraphics.drawScaledImage(image, box, graphics);
-    //UtilGraphics.fillRect(box, graphics);
   }
 
-  public IntVect2D getPostion(){
+  public IntVect2D getPostion() {
     return new IntVect2D(boardX, boardY);
   }
 

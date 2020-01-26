@@ -2,6 +2,7 @@ package com.tagteam.tileexplorer.game.windows.components;
 
 import com.tagteam.tileexplorer.core.AudioController;
 import com.tagteam.tileexplorer.game.events.windowclick.ComponentClickEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.ComponentMouseEnterEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.MouseDragEndEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.MouseDragStartEvent;
 import com.tagteam.tileexplorer.game.windows.GameWindow;
@@ -43,6 +44,11 @@ public class CloseButton extends SimpleButton {
 
   @Override
   public void handleDragEnd(MouseDragEndEvent event) {
+
+  }
+
+  @Override
+  public void handleMouseEnter(ComponentMouseEnterEvent event) {
 
   }
 
