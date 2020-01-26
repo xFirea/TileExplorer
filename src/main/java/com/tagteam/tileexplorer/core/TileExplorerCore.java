@@ -107,7 +107,7 @@ public class TileExplorerCore {
     graphicController.putGraphicTask("Background", background);
     graphicController.putGraphicTask(GraphicPriority.HIGH, "WindowTask", windowManager);
     graphicController.putGraphicTask(GraphicPriority.TOP, "GameCursor", GameUser.get().getGameCursor());
-    graphicController.setFpsLimitEnabled(false);
+    graphicController.setFpsLimitEnabled(true);
     graphicController.setFpsLimit(60);
     graphicController.setFpsColor(Color.GREEN);
     graphicController.setInternalFpsDrawerEnabled(true);
