@@ -132,7 +132,7 @@ public class TileExplorerCore {
     // TODO debug
     //windowManager.addWindow(new TestWindow(new IntBoundingBox(0, 0, 200, 200)));
 
-    TripleLayerOpenSimplexNoiseGenerator generator = new TripleLayerOpenSimplexNoiseGenerator(System.currentTimeMillis(), 12.5, 10, 10, 10,0);
+    TripleLayerOpenSimplexNoiseGenerator generator = new TripleLayerOpenSimplexNoiseGenerator(0, 12.5, 10, 10, 10,0);
 
     GameBoard board = new GameBoard(4, 100, 100, generator, GameOptions.MAP_SIZE, GameOptions.BASE_VISIBLE_RADIUS, 320);
 

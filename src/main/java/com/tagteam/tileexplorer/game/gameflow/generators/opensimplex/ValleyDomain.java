@@ -6,7 +6,7 @@ public class ValleyDomain implements SimplexHeightDomain {
 
   @Override
   public Biome getBiome(double temp, double height, double vegetation) {
-    if (temp < 5) {
+    if (temp < 10) {
       if (temp < -12.5) {
         return Biome.DEEP_ICE_FIELDS;
       }
