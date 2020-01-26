@@ -57,7 +57,7 @@ public class MapDebugKeyListener implements KeyListener {
         yAdd += 1;
         break;
       case KeyEvent.VK_R:
-        board.fillTiles(new TripleLayerOpenSimplexNoiseGenerator(System.nanoTime(), 12.5, 10, 10, 10,0));
+        board.fillTiles(new TripleLayerOpenSimplexNoiseGenerator(System.currentTimeMillis(), 12.5, 10, 10, 10,0));
         break;
       default:
         break;
