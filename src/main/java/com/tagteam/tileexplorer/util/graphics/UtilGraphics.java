@@ -1,11 +1,16 @@
 package com.tagteam.tileexplorer.util.graphics;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 import com.tagteam.tileexplorer.util.math.IntBoundingBox;
 import com.tagteam.tileexplorer.util.math.IntVect2D;
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 /*******************************************************
@@ -60,11 +65,20 @@ public class UtilGraphics {
       height += 2;
       startColor = UtilColor.brighten(startColor);
       graphics.setColor(startColor);
-
     }
   }
 
-  //private static final Table<BufferedImage, Double, BufferedImage> SCALED_CACHE = HashBasedTable.create();
+  private static final Table<BufferedImage, Double, BufferedImage> SCALED_CACHE = HashBasedTable.create();
+
+  public static void drawResizedImage(BufferedImage image, int posX, int posY, double scale, Graphics graphics) {
+    BufferedImage scaledImage = SCALED_CACHE.get(image, scale);
+    if (scaledImage == null) {
+      scaledImage = createResizedCopy(image, (int) (image.getWidth() * scale), (int) (image.getHeight() * scale), false);
+      SCALED_CACHE.put(image, scale, scaledImage);
+      System.out.println("Scaling image");
+    }
+    graphics.drawImage(scaledImage, posX, posY, null);
+  }
 
   public static void drawScaledImage(BufferedImage image, IntBoundingBox box, Graphics graphics) {
     int x = box.getPosition().getX();
@@ -82,5 +96,16 @@ public class UtilGraphics {
     graphics.drawString(text, position.getX() - w2, h2);
   }
 
+  private static BufferedImage createResizedCopy(Image originalImage, int scaledWidth, int scaledHeight, boolean preserveAlpha) {
+    int imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
+    BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);
+    Graphics2D g = scaledBI.createGraphics();
+    if (preserveAlpha) {
+      g.setComposite(AlphaComposite.Src);
+    }
+    g.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight, null);
+    g.dispose();
+    return scaledBI;
+  }
 
 }

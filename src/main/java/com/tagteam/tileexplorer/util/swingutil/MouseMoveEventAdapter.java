@@ -1,7 +1,11 @@
 package com.tagteam.tileexplorer.util.swingutil;
 
+import com.tagteam.tileexplorer.game.events.windowclick.ComponentMouseEnterEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.WindowMouseEnterEvent;
 import com.tagteam.tileexplorer.game.user.GameCursor;
-import com.tagteam.tileexplorer.game.user.GameUser;
+import com.tagteam.tileexplorer.game.windows.GameWindow;
+import com.tagteam.tileexplorer.game.windows.WindowManager;
+import com.tagteam.tileexplorer.game.windows.components.WindowComponent;
 import com.tagteam.tileexplorer.util.math.IntVect2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -19,6 +23,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MouseMoveEventAdapter implements MouseMotionListener {
 
+  private final WindowManager windowManager;
   private final GameCursor gameCursor;
 
   @Override
@@ -29,6 +34,27 @@ public class MouseMoveEventAdapter implements MouseMotionListener {
   @Override
   public void mouseMoved(MouseEvent e) {
     gameCursor.updatePosition(e);
+    IntVect2D cursorPos = gameCursor.getCurrentPosition();
+    GameWindow window = windowManager.getTopWindowAt(cursorPos);
+    if (gameCursor.getCurrentlyHoveringWindow() != window) {
+      WindowMouseEnterEvent windowMouseEnterEvent = new WindowMouseEnterEvent(window);
+      windowMouseEnterEvent.callEvent();
+      if (window != null) {
+        window.handleEnter(windowMouseEnterEvent);
+      }
+      gameCursor.setCurrentlyHoveringWindow(window);
+    }
+    if (window != null) {
+      WindowComponent component = window.getComponentAt(cursorPos);
+      if (gameCursor.getCurrentlyHoveringComponent() != component) {
+        ComponentMouseEnterEvent componentMouseEnterEvent = new ComponentMouseEnterEvent(window, component);
+        componentMouseEnterEvent.callEvent();
+        if (component != null) {
+          component.handleMouseEnter(componentMouseEnterEvent);
+        }
+        gameCursor.setCurrentHeldComponent(component);
+      }
+    }
   }
 
 }

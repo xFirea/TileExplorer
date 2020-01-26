@@ -86,7 +86,7 @@ public class TileExplorerCore {
   private void setup() {
     setupSwing();
     GameOptions.MAP_SIZE = 200;
-    GameOptions.BASE_VISIBLE_RADIUS = 100;
+    GameOptions.BASE_VISIBLE_RADIUS = 10;
     GameOptions.GAME_RESOLUTION = gameResolution;
     setupGraphics();
     setupLogic();
@@ -97,7 +97,7 @@ public class TileExplorerCore {
   private void setupSwing() {
     GameLogger.log("Swing setup...");
     engineCore.addMouseListener(new MouseClickEventAdapter(eventManager, windowManager));
-    engineCore.addMouseMotionListener(new MouseMoveEventAdapter(GameUser.get().getGameCursor()));
+    engineCore.addMouseMotionListener(new MouseMoveEventAdapter(windowManager, GameUser.get().getGameCursor()));
     engineCore.addKeyListener(new EscapeKeyListener(engineCore));
   }
 
@@ -107,7 +107,7 @@ public class TileExplorerCore {
     graphicController.putGraphicTask("Background", background);
     graphicController.putGraphicTask(GraphicPriority.HIGH, "WindowTask", windowManager);
     graphicController.putGraphicTask(GraphicPriority.TOP, "GameCursor", GameUser.get().getGameCursor());
-    graphicController.setFpsLimitEnabled(true);
+    graphicController.setFpsLimitEnabled(false);
     graphicController.setFpsLimit(60);
     graphicController.setFpsColor(Color.GREEN);
     graphicController.setInternalFpsDrawerEnabled(true);
@@ -132,9 +132,9 @@ public class TileExplorerCore {
     // TODO debug
     //windowManager.addWindow(new TestWindow(new IntBoundingBox(0, 0, 200, 200)));
 
-    TripleLayerOpenSimplexNoiseGenerator generator = new TripleLayerOpenSimplexNoiseGenerator(System.currentTimeMillis(), 12.5, 10, 10, 10,0);
+    TripleLayerOpenSimplexNoiseGenerator generator = new TripleLayerOpenSimplexNoiseGenerator(0, 12.5, 10, 10, 10, 0);
 
-    GameBoard board = new GameBoard(4, 100, 100, generator, GameOptions.MAP_SIZE, GameOptions.BASE_VISIBLE_RADIUS, 320);
+    GameBoard board = new GameBoard(30, 100, 100, generator, GameOptions.MAP_SIZE, GameOptions.BASE_VISIBLE_RADIUS, 320);
 
     //GameBoard board = new GameBoard(5, 100, 100, new OpenSimplexNoiseGenerator(0, 10D));
 

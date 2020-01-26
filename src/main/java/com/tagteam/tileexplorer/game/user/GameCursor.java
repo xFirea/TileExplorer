@@ -32,6 +32,17 @@ public class GameCursor implements GTask {
   @Getter
   private IntVect2D currentPosition;
 
+  public void setCurrentlyHoveringWindow(GameWindow window) {
+    currentlyHoveringWindow = window;
+    System.out.println("Window!");
+  }
+  @Getter
+//  @Setter
+  private GameWindow currentlyHoveringWindow;
+  @Getter
+  @Setter
+  private WindowComponent currentlyHoveringComponent;
+
   public void updatePosition(MouseEvent event) {
     currentPosition = new IntVect2D(event.getX(), event.getY());
   }

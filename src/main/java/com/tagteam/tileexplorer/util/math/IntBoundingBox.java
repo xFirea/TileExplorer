@@ -1,6 +1,7 @@
 package com.tagteam.tileexplorer.util.math;
 
 import com.google.common.base.Preconditions;
+import java.util.Objects;
 import lombok.Getter;
 
 /*******************************************************
@@ -89,6 +90,20 @@ public class IntBoundingBox {
 
   public boolean contains(IntVect2D pointer) {
     return leftCorner.isSmallerOrEqualTo(pointer) && rightCorner.isBiggerOrEqualTo(pointer);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (!(other instanceof IntBoundingBox)) {
+      return false;
+    }
+    IntBoundingBox otherBox = (IntBoundingBox) other;
+    return this.leftCorner.equals(otherBox.leftCorner) && this.rightCorner.equals(otherBox.rightCorner);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(leftCorner.getX(), leftCorner.getY(), rightCorner.getX(), rightCorner.getY());
   }
 
 }

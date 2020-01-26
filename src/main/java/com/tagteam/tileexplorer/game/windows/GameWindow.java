@@ -4,6 +4,7 @@ import com.gestankbratwurst.le_engine.graphics.GTask;
 import com.google.common.collect.Sets;
 import com.tagteam.tileexplorer.game.events.windowclick.ComponentClickEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.WindowClickEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.WindowMouseEnterEvent;
 import com.tagteam.tileexplorer.game.windows.components.WindowComponent;
 import com.tagteam.tileexplorer.util.graphics.UtilGraphics;
 import com.tagteam.tileexplorer.util.math.IntBoundingBox;
@@ -11,6 +12,7 @@ import com.tagteam.tileexplorer.util.math.IntVect2D;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Set;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /*******************************************************
@@ -23,6 +25,7 @@ import lombok.Getter;
  *
  */
 
+@EqualsAndHashCode
 public abstract class GameWindow implements GTask {
 
   public GameWindow(IntBoundingBox boundingBox, Color backgroundColor) {
@@ -111,5 +114,7 @@ public abstract class GameWindow implements GTask {
   protected abstract void onMove(int newX, int newY);
 
   protected abstract void render(Graphics graphics);
+
+  public abstract void handleEnter(WindowMouseEnterEvent event);
 
 }

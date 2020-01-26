@@ -1,6 +1,7 @@
 package com.tagteam.tileexplorer.game.gameflow;
 
 import com.tagteam.tileexplorer.game.events.windowclick.WindowClickEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.WindowMouseEnterEvent;
 import com.tagteam.tileexplorer.game.gameflow.generators.TileGenerator;
 import com.tagteam.tileexplorer.game.gameflow.tiles.Tile;
 import com.tagteam.tileexplorer.game.gameflow.tiles.pathfinders.BiomeFetcher;
@@ -112,8 +113,7 @@ public class GameBoard extends GameWindow {
     System.out.println("Temp: " + tile.getEnvironment().getTemp());
     System.out.println("Biom: " + tile.getEnvironment().getBiome());
 
-    System.out
-        .println("[Debug] Biomesize: " + new BiomeFetcher(tileMap, tile.getPostion().getX(), tile.getPostion().getY()).start().size());
+    System.out.println("[Debug] Biomesize: " + new BiomeFetcher(tileMap, tile.getPostion().getX(), tile.getPostion().getY()).start().size());
   }
 
   @Override
@@ -146,6 +146,11 @@ public class GameBoard extends GameWindow {
 
       }
     }
+  }
+
+  @Override
+  public void handleEnter(WindowMouseEnterEvent event) {
+
   }
 
 }

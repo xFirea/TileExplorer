@@ -1,6 +1,7 @@
 package com.tagteam.tileexplorer;
 
 import com.tagteam.tileexplorer.game.events.windowclick.WindowClickEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.WindowMouseEnterEvent;
 import com.tagteam.tileexplorer.game.windows.GameWindow;
 import com.tagteam.tileexplorer.game.windows.components.CloseButton;
 import com.tagteam.tileexplorer.util.GameLogger;
@@ -51,6 +52,11 @@ public class TestWindow extends GameWindow {
 
   @Override
   protected void render(Graphics graphics) {
+
+  }
+
+  @Override
+  public void handleEnter(WindowMouseEnterEvent event) {
 
   }
 
