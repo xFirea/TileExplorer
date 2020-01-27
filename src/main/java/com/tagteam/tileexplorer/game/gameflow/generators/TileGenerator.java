@@ -1,6 +1,7 @@
 package com.tagteam.tileexplorer.game.gameflow.generators;
 
 import com.google.common.collect.Sets;
+import com.tagteam.tileexplorer.game.events.game.TileGenerateEvent;
 import com.tagteam.tileexplorer.game.gameflow.tiles.Biome;
 import com.tagteam.tileexplorer.game.gameflow.tiles.Environment;
 import com.tagteam.tileexplorer.game.gameflow.tiles.Tile;
@@ -32,6 +33,7 @@ public interface TileGenerator {
       for (int y = 0; y < tileMap.getSize(); y++) {
         Environment environment = getGeneratedEnvironment(tileMap, x, y);
         Tile tile = new Tile(x, y, tileSize, environment);
+        new TileGenerateEvent(tile, tileMap).callEvent();
         tileMap.setTile(x, y, tile);
       }
     }

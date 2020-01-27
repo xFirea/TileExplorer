@@ -13,8 +13,6 @@ public class MountainDomain implements SimplexHeightDomain {
 
     if (height > 0.55) {
 
-      System.out.println("[Debug] Mountainpeak generated!");
-
       return Biome.MOUNTAIN_PEAK;
     }
     if (temp < 5 && vegetation > 0.5) {

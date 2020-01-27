@@ -5,6 +5,7 @@ import com.tagteam.tileexplorer.game.events.windowclick.WindowMouseEnterEvent;
 import com.tagteam.tileexplorer.game.gameflow.generators.TileGenerator;
 import com.tagteam.tileexplorer.game.gameflow.tiles.Tile;
 import com.tagteam.tileexplorer.game.gameflow.tiles.pathfinders.BiomeFetcher;
+import com.tagteam.tileexplorer.game.gameflow.tiles.pathfinders.IslandFetcher;
 import com.tagteam.tileexplorer.game.gameflow.world.TileMap;
 import com.tagteam.tileexplorer.game.windows.GameWindow;
 import com.tagteam.tileexplorer.util.math.IntBoundingBox;
@@ -114,6 +115,7 @@ public class GameBoard extends GameWindow {
     System.out.println("Biom: " + tile.getEnvironment().getBiome());
 
     System.out.println("[Debug] Biomesize: " + new BiomeFetcher(tileMap, tile.getPostion().getX(), tile.getPostion().getY()).start().size());
+    System.out.println("[Debug] Islandsize: " + new IslandFetcher(tileMap, tile.getPostion().getX(), tile.getPostion().getY()).start().size());
   }
 
   @Override

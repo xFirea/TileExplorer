@@ -6,7 +6,7 @@ public class ValleyDomain implements SimplexHeightDomain {
 
   @Override
   public Biome getBiome(double temp, double height, double vegetation) {
-    if (temp < 10) {
+    if (temp < 7.5) {
       if (temp < -12.5) {
         return Biome.DEEP_ICE_FIELDS;
       }
@@ -17,7 +17,7 @@ public class ValleyDomain implements SimplexHeightDomain {
       } else {
         return Biome.DENSE_PINE_FOREST;
       }
-    } else if (temp < 40) {
+    } else if (temp < 35.5) {
       if (vegetation < -0.10) {
         return Biome.PLAINS;
       } else if (vegetation < 0.75) {
@@ -26,7 +26,7 @@ public class ValleyDomain implements SimplexHeightDomain {
         return Biome.DENSE_FOREST;
       }
     } else {
-      if (temp > 52.5) {
+      if (temp > 50) {
         return Biome.DESERT;
       }
       if (vegetation < 0.5) {

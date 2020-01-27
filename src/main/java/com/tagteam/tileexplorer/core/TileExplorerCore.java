@@ -86,7 +86,7 @@ public class TileExplorerCore {
   private void setup() {
     setupSwing();
     GameOptions.MAP_SIZE = 200;
-    GameOptions.BASE_VISIBLE_RADIUS = 10;
+    GameOptions.BASE_VISIBLE_RADIUS = 100;
     GameOptions.GAME_RESOLUTION = gameResolution;
     setupGraphics();
     setupLogic();
@@ -130,13 +130,13 @@ public class TileExplorerCore {
 
   private void startGame() {
     // TODO debug
-    //windowManager.addWindow(new TestWindow(new IntBoundingBox(0, 0, 200, 200)));
+    // windowManager.addWindow(new TestWindow(new IntBoundingBox(0, 0, 200, 200)));
 
     TripleLayerOpenSimplexNoiseGenerator generator = new TripleLayerOpenSimplexNoiseGenerator(0, 12.5, 10, 10, 10, 0);
 
-    GameBoard board = new GameBoard(30, 100, 100, generator, GameOptions.MAP_SIZE, GameOptions.BASE_VISIBLE_RADIUS, 320);
+    GameBoard board = new GameBoard(5, 100, 100, generator, GameOptions.MAP_SIZE, GameOptions.BASE_VISIBLE_RADIUS, 320);
 
-    //GameBoard board = new GameBoard(5, 100, 100, new OpenSimplexNoiseGenerator(0, 10D));
+    // GameBoard board = new GameBoard(5, 100, 100, new OpenSimplexNoiseGenerator(0, 10D));
 
     windowManager.addWindow(board);
 

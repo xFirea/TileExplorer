@@ -31,13 +31,8 @@ public class GameCursor implements GTask {
   private CursorRenderer cursorDrawer = null;
   @Getter
   private IntVect2D currentPosition;
-
-  public void setCurrentlyHoveringWindow(GameWindow window) {
-    currentlyHoveringWindow = window;
-    System.out.println("Window!");
-  }
   @Getter
-//  @Setter
+  @Setter
   private GameWindow currentlyHoveringWindow;
   @Getter
   @Setter

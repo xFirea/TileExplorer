@@ -84,7 +84,10 @@ public class TripleLayerOpenSimplexNoiseGenerator implements TileGenerator {
   }
 
   private double evalTemp(int x, int y) {
-    return (tempNoise.eval(x / tempScale * 0.225, y / tempScale * 0.225) + 0.5) * 40;
+    double temp = (tempNoise.eval(x / tempScale * 0.225, y / tempScale * 0.225) + 0.5) * 40;
+    temp += (tempNoise.eval(x / tempScale * 1.5, y / tempScale * 1.5) + 0.5) * 45;
+    temp /= 2;
+    return temp;
   }
 
   @Override
