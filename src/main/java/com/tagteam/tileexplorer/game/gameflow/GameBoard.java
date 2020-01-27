@@ -11,6 +11,7 @@ import com.tagteam.tileexplorer.game.windows.GameWindow;
 import com.tagteam.tileexplorer.util.math.IntBoundingBox;
 import com.tagteam.tileexplorer.util.math.IntVect2D;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import lombok.Getter;
 import lombok.Setter;
@@ -104,7 +105,7 @@ public class GameBoard extends GameWindow {
     int tileX = currentX - visibleRadius + x;
     int tileY = currentY - visibleRadius + y;
     Tile tile = null;
-    if (!(x < 0 || x > tileMap.getSize() || y < 0 || y > tileMap.getSize())) {
+    if (!(x < 0 || x > tileMap.getRowAndColumnSize() || y < 0 || y > tileMap.getRowAndColumnSize())) {
       tile = this.getTile(tileX, tileY);
     }
     if (tile == null) {
@@ -114,8 +115,10 @@ public class GameBoard extends GameWindow {
     System.out.println("Temp: " + tile.getEnvironment().getTemp());
     System.out.println("Biom: " + tile.getEnvironment().getBiome());
 
-    System.out.println("[Debug] Biomesize: " + new BiomeFetcher(tileMap, tile.getPostion().getX(), tile.getPostion().getY()).start().size());
-    System.out.println("[Debug] Islandsize: " + new IslandFetcher(tileMap, tile.getPostion().getX(), tile.getPostion().getY()).start().size());
+    System.out
+        .println("[Debug] Biomesize: " + new BiomeFetcher(tileMap, tile.getPostion().getX(), tile.getPostion().getY()).start().size());
+    System.out
+        .println("[Debug] Islandsize: " + new IslandFetcher(tileMap, tile.getPostion().getX(), tile.getPostion().getY()).start().size());
   }
 
   @Override
@@ -131,7 +134,10 @@ public class GameBoard extends GameWindow {
   @Override
   protected void render(Graphics graphics) {
     graphics.setColor(Color.BLACK);
-    graphics.drawString("Seed: " + seed, this.getPosition().getX() + 2, this.getPosition().getY() - 5);
+    String seedString = "Seed: " + seed;
+    String tempString = "Average Temp " + ((int)(this.tileMap.getAverageTemp() * 100) / 100D) + "°C";
+    graphics.setFont(new Font("Arial", Font.BOLD, 16));
+    graphics.drawString(seedString + "   |   " + tempString, this.getPosition().getX() + 2, this.getPosition().getY() - 5);
     for (int x = -visibleRadius; x < visibleRadius + 1; x++) {
       for (int y = -visibleRadius; y < visibleRadius + 1; y++) {
 

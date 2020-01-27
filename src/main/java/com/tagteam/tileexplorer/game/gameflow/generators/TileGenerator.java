@@ -29,15 +29,15 @@ public interface TileGenerator {
   }
 
   default void fillMap(TileMap tileMap, int tileSize, int lakeMaxSize) {
-    for (int x = 0; x < tileMap.getSize(); x++) {
-      for (int y = 0; y < tileMap.getSize(); y++) {
+    for (int x = 0; x < tileMap.getRowAndColumnSize(); x++) {
+      for (int y = 0; y < tileMap.getRowAndColumnSize(); y++) {
         Environment environment = getGeneratedEnvironment(tileMap, x, y);
         Tile tile = new Tile(x, y, tileSize, environment);
         new TileGenerateEvent(tile, tileMap).callEvent();
         tileMap.setTile(x, y, tile);
       }
     }
-    Set<Tile> seaTiles = Sets.newHashSetWithExpectedSize(tileMap.getSize() * tileMap.getSize());
+    Set<Tile> seaTiles = Sets.newHashSetWithExpectedSize(tileMap.getRowAndColumnSize() * tileMap.getRowAndColumnSize());
     for (Tile tile : tileMap) {
       if (tile.getEnvironment().getBiome() == Biome.SEA) {
         seaTiles.add(tile);

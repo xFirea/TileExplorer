@@ -20,22 +20,42 @@ public class TileMap implements Iterable<Tile> {
 
   public TileMap(int size) {
     this.tileArray = new Tile[size][size];
-    this.size = size;
+    this.rowAndColumnSize = size;
   }
 
   @Getter
-  private final int size;
+  private final int rowAndColumnSize;
   private final Tile[][] tileArray;
 
+  private boolean tilesChanged = false;
+  private double averageTemp = 0D;
+
+  private void recalculateAverageTemp() {
+    double tempSum = 0;
+    for (Tile tile : this) {
+      tempSum += tile.getEnvironment().getTemp();
+    }
+    tempSum /= (rowAndColumnSize * rowAndColumnSize);
+    averageTemp = tempSum;
+  }
+
+  public double getAverageTemp() {
+    if (tilesChanged) {
+      recalculateAverageTemp();
+    }
+    return averageTemp;
+  }
+
   public Tile getTile(int x, int y) {
-    if (!(x < 0 || x >= size || y < 0 || y >= size)) {
+    if (!(x < 0 || x >= rowAndColumnSize || y < 0 || y >= rowAndColumnSize)) {
       return tileArray[x][y];
     }
     return null;
   }
 
   public void setTile(int x, int y, Tile tile) {
-    Preconditions.checkArgument(!(x < 0 || x >= size || y < 0 || y >= size));
+    Preconditions.checkArgument(!(x < 0 || x >= rowAndColumnSize || y < 0 || y >= rowAndColumnSize));
+    tilesChanged = true;
     tileArray[x][y] = tile;
   }
 
@@ -46,8 +66,8 @@ public class TileMap implements Iterable<Tile> {
 
   @Override
   public void forEach(Consumer<? super Tile> action) {
-    for (int x = 0; x < size; x++) {
-      for (int y = 0; y < size; y++) {
+    for (int x = 0; x < rowAndColumnSize; x++) {
+      for (int y = 0; y < rowAndColumnSize; y++) {
         action.accept(getTile(x, y));
       }
     }

@@ -18,7 +18,7 @@ public class TileMapIterator implements Iterator<Tile> {
 
   public TileMapIterator(TileMap tileMap) {
     this.tileMap = tileMap;
-    this.size = tileMap.getSize();
+    this.size = tileMap.getRowAndColumnSize();
   }
 
   private final TileMap tileMap;
