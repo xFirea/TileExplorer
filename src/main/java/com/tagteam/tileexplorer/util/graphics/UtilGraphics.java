@@ -75,12 +75,11 @@ public class UtilGraphics {
     if (scaledImage == null) {
       scaledImage = createResizedCopy(image, (int) (image.getWidth() * scale), (int) (image.getHeight() * scale), false);
       SCALED_CACHE.put(image, scale, scaledImage);
-      System.out.println("Scaling image");
     }
     graphics.drawImage(scaledImage, posX, posY, null);
   }
 
-  public static void drawScaledImage(BufferedImage image, IntBoundingBox box, Graphics graphics) {
+  public static void drawScaledImage(Image image, IntBoundingBox box, Graphics graphics) {
     int x = box.getPosition().getX();
     int y = box.getPosition().getY();
     int width = box.getWidth();

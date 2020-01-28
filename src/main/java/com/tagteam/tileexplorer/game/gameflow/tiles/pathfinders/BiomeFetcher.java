@@ -2,10 +2,11 @@ package com.tagteam.tileexplorer.game.gameflow.tiles.pathfinders;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
+import com.google.common.collect.Sets;
 import com.tagteam.tileexplorer.game.gameflow.tiles.Biome;
 import com.tagteam.tileexplorer.game.gameflow.tiles.Tile;
+import com.tagteam.tileexplorer.game.gameflow.world.Direction;
 import com.tagteam.tileexplorer.game.gameflow.world.TileMap;
-import com.tagteam.tileexplorer.util.math.IntVect2D;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,30 +24,27 @@ import java.util.HashSet;
 public class BiomeFetcher {
 
   public BiomeFetcher(TileMap tileMap, int startX, int startY) {
-    this.tileMap = tileMap;
-    this.startX = startX;
-    this.startY = startY;
+    this(tileMap.getTile(startX, startY));
   }
 
-  private final TileMap tileMap;
-  private final int startX;
-  private final int startY;
+  public BiomeFetcher(Tile startTile) {
+    this.startTile = startTile;
+  }
 
-  private int biomeSize;
+  private final Tile startTile;
 
-  private ArrayDeque<IntVect2D> possibleTiles = Queues.newArrayDeque();
+  private ArrayDeque<Tile> possibleTiles = Queues.newArrayDeque();
 
-  private HashSet<IntVect2D> biomeTiles = new HashSet<>();
+  private HashSet<Tile> biomeTiles = Sets.newHashSet();
   private Biome biome;
 
-  public HashSet<IntVect2D> start() {
+  public HashSet<Tile> start() {
 
-    biomeTiles.add(new IntVect2D(startX, startY));
-    biomeSize = 1;
+    biomeTiles.add(startTile);
 
-    biome = tileMap.getTile(startX, startY).getEnvironment().getBiome();
+    biome = startTile.getEnvironment().getBiome();
 
-    possibleTiles.addAll(getAdjacent(new IntVect2D(startX, startY)));
+    possibleTiles.addAll(getAdjacent(startTile));
 
     do {
 
@@ -59,45 +57,25 @@ public class BiomeFetcher {
 
   private void validatePossibleTiles() {
     for (int i = 0; i < possibleTiles.size(); i++) {
-      IntVect2D pos = possibleTiles.pop();
+      Tile pos = possibleTiles.pop();
 
       if (!biomeTiles.contains(pos)) {
         biomeTiles.add(pos);
-        biomeSize++;
 
         possibleTiles.addAll(getAdjacent(pos));
       }
     }
   }
 
-  private ArrayList<IntVect2D> getAdjacent(IntVect2D pos) {
+  private ArrayList<Tile> getAdjacent(Tile tile) {
 
-    ArrayList<IntVect2D> validTiles = Lists.newArrayListWithExpectedSize(4);
+    ArrayList<Tile> validTiles = Lists.newArrayListWithExpectedSize(4);
 
-    Tile tile;
-
-    tile = tileMap.getTile(pos.getX() - 1, pos.getY());
-
-    if (tile != null && tile.getEnvironment().getBiome() == biome) {
-      validTiles.add(new IntVect2D(pos.getX() - 1, pos.getY()));
-    }
-
-    tile = tileMap.getTile(pos.getX() + 1, pos.getY());
-
-    if (tile != null && tile.getEnvironment().getBiome() == biome) {
-      validTiles.add(new IntVect2D(pos.getX() + 1, pos.getY()));
-    }
-
-    tile = tileMap.getTile(pos.getX(), pos.getY() - 1);
-
-    if (tile != null && tile.getEnvironment().getBiome() == biome) {
-      validTiles.add(new IntVect2D(pos.getX(), pos.getY() - 1));
-    }
-
-    tile = tileMap.getTile(pos.getX(), pos.getY() + 1);
-
-    if (tile != null && tile.getEnvironment().getBiome() == biome) {
-      validTiles.add(new IntVect2D(pos.getX(), pos.getY() + 1));
+    for (Direction direction : Direction.values()) {
+      Tile relativeTile = tile.getRelative(direction);
+      if (relativeTile != null && tile.getEnvironment().getBiome() == biome) {
+        validTiles.add(relativeTile);
+      }
     }
 
     return validTiles;

@@ -18,6 +18,7 @@ import com.tagteam.tileexplorer.game.keylistener.MapDebugKeyListener;
 import com.tagteam.tileexplorer.game.user.GameUser;
 import com.tagteam.tileexplorer.game.windows.WindowManager;
 import com.tagteam.tileexplorer.graphics.Background;
+import com.tagteam.tileexplorer.startscreen.MenuScreen;
 import com.tagteam.tileexplorer.util.GameLogger;
 import com.tagteam.tileexplorer.util.UtilResource;
 import com.tagteam.tileexplorer.util.swingutil.MouseClickEventAdapter;
@@ -85,12 +86,13 @@ public class TileExplorerCore {
 
   private void setup() {
     setupSwing();
-    GameOptions.MAP_SIZE = 200;
-    GameOptions.BASE_VISIBLE_RADIUS = 100;
+    GameOptions.MAP_SIZE = 100;
+    GameOptions.BASE_VISIBLE_RADIUS = 50;
     GameOptions.GAME_RESOLUTION = gameResolution;
     setupGraphics();
     setupLogic();
     setupAudio();
+    //openStartScreen();
     startGame();
   }
 
@@ -121,11 +123,15 @@ public class TileExplorerCore {
 
   private void setupAudio() {
     GameLogger.log("Audio setup...");
-    audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("click.wav")), "UI_CLICK_1");
-    audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("click2.wav")), "UI_CLICK_2");
-    audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("click3.wav")), "UI_CLICK_3");
-    audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("drag.wav")), "DRAG");
+    audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("sounds/click.wav")), "UI_CLICK_1");
+    audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("sounds/click2.wav")), "UI_CLICK_2");
+    audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("sounds/click3.wav")), "UI_CLICK_3");
+    audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("sounds/drag.wav")), "DRAG");
     AudioController.init(audioController);
+  }
+
+  private void openStartScreen() {
+    windowManager.addWindow(new MenuScreen(this.gameResolution, windowManager));
   }
 
   private void startGame() {
@@ -134,14 +140,13 @@ public class TileExplorerCore {
 
     TripleLayerOpenSimplexNoiseGenerator generator = new TripleLayerOpenSimplexNoiseGenerator(1580116667489L, 12.5, 10, 10, 10, 0);
 
-    GameBoard board = new GameBoard(5, 100, 100, generator, GameOptions.MAP_SIZE, GameOptions.BASE_VISIBLE_RADIUS, 320);
+    GameBoard board = new GameBoard(10, 10, 10, generator, GameOptions.MAP_SIZE, GameOptions.BASE_VISIBLE_RADIUS, 320);
 
     // GameBoard board = new GameBoard(5, 100, 100, new OpenSimplexNoiseGenerator(0, 10D));
 
     windowManager.addWindow(board);
 
     this.engineCore.addKeyListener(new MapDebugKeyListener(board));
-
   }
 
 }

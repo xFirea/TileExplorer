@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.tagteam.tileexplorer.game.gameflow.tiles.Tile;
 import com.tagteam.tileexplorer.util.game.TileMapIterator;
 import java.util.Iterator;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 import lombok.Getter;
 
@@ -16,15 +17,18 @@ import lombok.Getter;
  * permission of the owner.
  *
  */
+
 public class TileMap implements Iterable<Tile> {
 
   public TileMap(int size) {
     this.tileArray = new Tile[size][size];
     this.rowAndColumnSize = size;
+    this.randomHash = ThreadLocalRandom.current().nextInt();
   }
 
   @Getter
   private final int rowAndColumnSize;
+  private final int randomHash;
   private final Tile[][] tileArray;
 
   private boolean tilesChanged = false;
@@ -71,6 +75,19 @@ public class TileMap implements Iterable<Tile> {
         action.accept(getTile(x, y));
       }
     }
+  }
+
+  @Override
+  public int hashCode() {
+    return randomHash;
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (!(other instanceof TileMap)) {
+      return false;
+    }
+    return other == this;
   }
 
 }

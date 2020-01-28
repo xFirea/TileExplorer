@@ -64,7 +64,7 @@ public enum Biome {
     BufferedImage image = imageCache.get(this);
     if (image == null) {
       //InputStream inputStream = TileExplorerCore.class.getClassLoader().getResourceAsStream(this.toString() + "_IMAGE.png");
-      InputStream inputStream = TileExplorerCore.class.getClassLoader().getResourceAsStream(this.toString() + "_IMAGE.png");
+      InputStream inputStream = TileExplorerCore.class.getClassLoader().getResourceAsStream("images/" + this.toString() + "_IMAGE.png");
       BufferedInputStream bufferedInputStream;
       if (inputStream != null) {
         bufferedInputStream = IOUtils.buffer(inputStream);

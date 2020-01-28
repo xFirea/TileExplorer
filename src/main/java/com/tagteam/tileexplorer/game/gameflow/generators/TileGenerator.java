@@ -32,33 +32,32 @@ public interface TileGenerator {
     for (int x = 0; x < tileMap.getRowAndColumnSize(); x++) {
       for (int y = 0; y < tileMap.getRowAndColumnSize(); y++) {
         Environment environment = getGeneratedEnvironment(tileMap, x, y);
-        Tile tile = new Tile(x, y, tileSize, environment);
+        Tile tile = new Tile(tileMap, x, y, tileSize, environment);
         new TileGenerateEvent(tile, tileMap).callEvent();
         tileMap.setTile(x, y, tile);
       }
     }
-    Set<Tile> seaTiles = Sets.newHashSetWithExpectedSize(tileMap.getRowAndColumnSize() * tileMap.getRowAndColumnSize());
+    Set<Tile> seaTiles = Sets.newHashSet();
     for (Tile tile : tileMap) {
       if (tile.getEnvironment().getBiome() == Biome.SEA) {
         seaTiles.add(tile);
       }
     }
     while (!seaTiles.isEmpty()) {
-      IntVect2D pos = seaTiles.stream().findAny().get().getPostion();
-      BiomeFetcher fetcher = new BiomeFetcher(tileMap, pos.getX(), pos.getY());
-      HashSet<IntVect2D> seaBatch = fetcher.start();
+      Tile startTile = seaTiles.stream().findAny().get();
+      seaTiles.remove(startTile);
+      BiomeFetcher fetcher = new BiomeFetcher(startTile);
+      HashSet<Tile> seaBatch = fetcher.start();
       if (seaBatch.size() <= lakeMaxSize) {
-        for (IntVect2D lakePos : seaBatch) {
-          Tile oldTile = tileMap.getTile(lakePos.getX(), lakePos.getY());
-          seaTiles.remove(oldTile);
-          tileMap.setTile(lakePos.getX(), lakePos.getY(),
-              new Tile(lakePos.getX(), lakePos.getY(), tileSize, new Environment(Biome.LAKE, oldTile.getEnvironment().getTemp())));
-        }
-      } else {
-        for (IntVect2D seaPos : seaBatch) {
-          seaTiles.remove(tileMap.getTile(seaPos.getX(), seaPos.getY()));
+        for (Tile lakeTile : seaBatch) {
+          IntVect2D lakePos = lakeTile.getPostion();
+          Tile newTile = new Tile(tileMap, lakePos.getX(), lakePos.getY(), tileSize,
+              new Environment(Biome.LAKE, lakeTile.getEnvironment().getTemp()));
+          tileMap.setTile(lakePos.getX(), lakePos.getY(), newTile);
         }
       }
+
+      seaTiles.removeAll(seaBatch);
     }
   }
 
