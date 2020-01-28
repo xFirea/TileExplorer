@@ -93,10 +93,10 @@ public abstract class GameWindow implements GTask {
     graphics.setColor(backgroundColor);
     UtilGraphics.fillRect(boundingBox, graphics);
     UtilGraphics.drawRectCorner(boundingBox, 2, graphics, Color.BLACK);
+    render(graphics);
     for (WindowComponent component : windowComponents) {
       component.accept(graphics);
     }
-    render(graphics);
   }
 
   public boolean contains(IntVect2D pointer) {

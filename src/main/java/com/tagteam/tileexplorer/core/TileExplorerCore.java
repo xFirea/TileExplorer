@@ -92,8 +92,8 @@ public class TileExplorerCore {
     setupGraphics();
     setupLogic();
     setupAudio();
-    //openStartScreen();
-    startGame();
+    openStartScreen();
+    //startGame();
   }
 
   private void setupSwing() {
@@ -131,7 +131,7 @@ public class TileExplorerCore {
   }
 
   private void openStartScreen() {
-    windowManager.addWindow(new MenuScreen(this.gameResolution, windowManager));
+    windowManager.addWindow(new MenuScreen(this.gameResolution, windowManager, audioController));
   }
 
   private void startGame() {
