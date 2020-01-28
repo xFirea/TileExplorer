@@ -1,6 +1,7 @@
 package com.tagteam.tileexplorer.util.swingutil;
 
 import com.tagteam.tileexplorer.game.events.windowclick.ComponentMouseEnterEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.ComponentMouseLeaveEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.WindowMouseEnterEvent;
 import com.tagteam.tileexplorer.game.user.GameCursor;
 import com.tagteam.tileexplorer.game.windows.GameWindow;
@@ -26,14 +27,8 @@ public class MouseMoveEventAdapter implements MouseMotionListener {
   private final WindowManager windowManager;
   private final GameCursor gameCursor;
 
-  @Override
-  public void mouseDragged(MouseEvent e) {
-    gameCursor.updatePosition(e);
-  }
-
-  @Override
-  public void mouseMoved(MouseEvent e) {
-    gameCursor.updatePosition(e);
+  private void handleMouseMovement(MouseEvent event) {
+    gameCursor.updatePosition(event);
     IntVect2D cursorPos = gameCursor.getCurrentPosition();
     GameWindow window = windowManager.getTopWindowAt(cursorPos);
     if (gameCursor.getCurrentlyHoveringWindow() != window) {
@@ -46,15 +41,34 @@ public class MouseMoveEventAdapter implements MouseMotionListener {
     }
     if (window != null) {
       WindowComponent component = window.getComponentAt(cursorPos);
-      if (gameCursor.getCurrentlyHoveringComponent() != component) {
+      WindowComponent currentComponent = gameCursor.getCurrentlyHoveringComponent();
+      if (currentComponent != component) {
+
+        ComponentMouseLeaveEvent componentMouseLeaveEvent = new ComponentMouseLeaveEvent(window, currentComponent);
+        componentMouseLeaveEvent.callEvent();
+        if (currentComponent != null) {
+          currentComponent.handleMouseLeave(componentMouseLeaveEvent);
+        }
+
         ComponentMouseEnterEvent componentMouseEnterEvent = new ComponentMouseEnterEvent(window, component);
         componentMouseEnterEvent.callEvent();
         if (component != null) {
           component.handleMouseEnter(componentMouseEnterEvent);
         }
-        gameCursor.setCurrentHeldComponent(component);
+
+        gameCursor.setCurrentlyHoveringComponent(component);
       }
     }
+  }
+
+  @Override
+  public void mouseDragged(MouseEvent e) {
+    handleMouseMovement(e);
+  }
+
+  @Override
+  public void mouseMoved(MouseEvent e) {
+    handleMouseMovement(e);
   }
 
 }

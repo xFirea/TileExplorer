@@ -1,7 +1,7 @@
 package com.tagteam.tileexplorer.game.windows;
 
 import com.gestankbratwurst.le_engine.graphics.GTask;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 import com.tagteam.tileexplorer.game.events.windowclick.ComponentClickEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.WindowClickEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.WindowMouseEnterEvent;
@@ -11,7 +11,7 @@ import com.tagteam.tileexplorer.util.math.IntBoundingBox;
 import com.tagteam.tileexplorer.util.math.IntVect2D;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.Set;
+import java.util.ArrayList;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -31,13 +31,13 @@ public abstract class GameWindow implements GTask {
   public GameWindow(IntBoundingBox boundingBox, Color backgroundColor) {
     this.boundingBox = boundingBox;
     this.backgroundColor = backgroundColor;
-    this.windowComponents = Sets.newHashSet();
+    this.windowComponents = Lists.newArrayList();
   }
 
   @Getter
   protected IntBoundingBox boundingBox;
   protected Color backgroundColor;
-  protected final Set<WindowComponent> windowComponents;
+  protected final ArrayList<WindowComponent> windowComponents;
 
   public IntVect2D getPosition() {
     return boundingBox.getPosition();
@@ -69,7 +69,8 @@ public abstract class GameWindow implements GTask {
   }
 
   public WindowComponent getComponentAt(IntVect2D globalVect) {
-    for (WindowComponent component : this.windowComponents) {
+    for (int index = windowComponents.size() - 1; index >= 0; index--) {
+      WindowComponent component = windowComponents.get(index);
       if (component.isHitLocal(getRelativePosition(globalVect))) {
         return component;
       }

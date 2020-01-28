@@ -1,6 +1,7 @@
 package com.tagteam.tileexplorer.core;
 
 import com.gestankbratwurst.le_engine.startmenu.GameResolution;
+import java.awt.Font;
 import lombok.Getter;
 
 /*******************************************************
@@ -22,5 +23,9 @@ public class GameOptions {
   protected static GameResolution GAME_RESOLUTION;
   @Getter
   protected static double WINDOW_SCALE;
+  @Getter
+  protected static int FONT_BASE_SIZE;
+  @Getter
+  protected static Font GAME_FONT;
 
 }

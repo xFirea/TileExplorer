@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import com.tagteam.tileexplorer.core.TileExplorerCore;
 import com.tagteam.tileexplorer.util.math.IntVect2D;
 import java.awt.Graphics;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import javax.annotation.Nullable;
 import lombok.Getter;
 
@@ -25,22 +25,26 @@ public class WindowManager implements GTask {
 
   public WindowManager(TileExplorerCore core) {
     instance = this;
-    this.activeWindows = Lists.newLinkedList();
+    this.activeWindows = Lists.newArrayList();
     core.registerEvents(new WindowDragListener(this));
   }
 
-  private final LinkedList<GameWindow> activeWindows;
+  private final ArrayList<GameWindow> activeWindows;
 
   private boolean isFocused(GameWindow window) {
-    return activeWindows.peek() == window;
+    if (activeWindows.size() == 0) {
+      return false;
+    }
+    return activeWindows.get(0) == window;
   }
 
   public void addWindow(GameWindow window) {
-    window.onOpen();
     this.activeWindows.add(window);
+    window.onOpen();
   }
 
   public void removeWindow(GameWindow window) {
+    window.onClose();
     this.activeWindows.remove(window);
   }
 
@@ -55,7 +59,8 @@ public class WindowManager implements GTask {
   @Nullable
   public GameWindow getTopWindowAt(IntVect2D position) {
     GameWindow topWindow = null;
-    for (GameWindow window : activeWindows) {
+    for (int index = activeWindows.size() - 1; index >= 0; index--) {
+      GameWindow window = activeWindows.get(index);
       if (window.contains(position)) {
         topWindow = window;
         break;

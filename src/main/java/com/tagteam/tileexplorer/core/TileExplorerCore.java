@@ -24,6 +24,7 @@ import com.tagteam.tileexplorer.util.UtilResource;
 import com.tagteam.tileexplorer.util.swingutil.MouseClickEventAdapter;
 import com.tagteam.tileexplorer.util.swingutil.MouseMoveEventAdapter;
 import java.awt.Color;
+import java.awt.Font;
 import org.apache.commons.io.IOUtils;
 
 /*******************************************************
@@ -86,14 +87,20 @@ public class TileExplorerCore {
 
   private void setup() {
     setupSwing();
-    GameOptions.MAP_SIZE = 100;
-    GameOptions.BASE_VISIBLE_RADIUS = 50;
-    GameOptions.GAME_RESOLUTION = gameResolution;
+    setupGameOptions();
     setupGraphics();
     setupLogic();
     setupAudio();
     openStartScreen();
     //startGame();
+  }
+
+  private void setupGameOptions() {
+    GameOptions.MAP_SIZE = 100;
+    GameOptions.BASE_VISIBLE_RADIUS = 50;
+    GameOptions.GAME_RESOLUTION = gameResolution;
+    GameOptions.FONT_BASE_SIZE = (int) (12D / 640D * gameResolution.getHeight());
+    GameOptions.GAME_FONT = new Font("Arial", Font.PLAIN, GameOptions.FONT_BASE_SIZE);
   }
 
   private void setupSwing() {
@@ -127,20 +134,21 @@ public class TileExplorerCore {
     audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("sounds/click2.wav")), "UI_CLICK_2");
     audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("sounds/click3.wav")), "UI_CLICK_3");
     audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("sounds/drag.wav")), "DRAG");
+    audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("sounds/main_theme.wav")), "MainTheme");
     AudioController.init(audioController);
   }
 
   private void openStartScreen() {
-    windowManager.addWindow(new MenuScreen(this.gameResolution, windowManager, audioController));
+    windowManager.addWindow(new MenuScreen(this.gameResolution, windowManager, this));
   }
 
-  private void startGame() {
+  public void startGame() {
     // TODO debug
     // windowManager.addWindow(new TestWindow(new IntBoundingBox(0, 0, 200, 200)));
 
     TripleLayerOpenSimplexNoiseGenerator generator = new TripleLayerOpenSimplexNoiseGenerator(1580116667489L, 12.5, 10, 10, 10, 0);
 
-    GameBoard board = new GameBoard(10, 10, 10, generator, GameOptions.MAP_SIZE, GameOptions.BASE_VISIBLE_RADIUS, 320);
+    GameBoard board = new GameBoard(10, 40, 20, generator, GameOptions.MAP_SIZE, GameOptions.BASE_VISIBLE_RADIUS, 320);
 
     // GameBoard board = new GameBoard(5, 100, 100, new OpenSimplexNoiseGenerator(0, 10D));
 

@@ -3,9 +3,11 @@ package com.tagteam.tileexplorer.game.windows.components;
 import com.tagteam.tileexplorer.core.AudioController;
 import com.tagteam.tileexplorer.game.events.windowclick.ComponentClickEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.ComponentMouseEnterEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.ComponentMouseLeaveEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.MouseDragEndEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.MouseDragStartEvent;
 import com.tagteam.tileexplorer.game.windows.GameWindow;
+import com.tagteam.tileexplorer.util.graphics.UtilGraphics;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -26,14 +28,18 @@ public class CloseButton extends SimpleButton {
     this.setMiddleText("X");
   }
 
+  private boolean isHovered = false;
+
   @Override
   public void drawExtra(Graphics graphics) {
-
+    if (isHovered) {
+      UtilGraphics.drawRectCorner(this.getGlobalBox(), 2, graphics, Color.ORANGE);
+    }
   }
 
   @Override
   public void onButtonClicked(ComponentClickEvent event) {
-    AudioController.play("UI_CLICK_3");
+    AudioController.playOnce("UI_CLICK_3");
     this.host.close();
   }
 
@@ -49,7 +55,12 @@ public class CloseButton extends SimpleButton {
 
   @Override
   public void handleMouseEnter(ComponentMouseEnterEvent event) {
+    isHovered = true;
+  }
 
+  @Override
+  public void handleMouseLeave(ComponentMouseLeaveEvent event) {
+    isHovered = false;
   }
 
 }

@@ -3,6 +3,7 @@ package com.tagteam.tileexplorer.game.windows.components;
 import com.gestankbratwurst.le_engine.graphics.GTask;
 import com.tagteam.tileexplorer.game.events.windowclick.ComponentClickEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.ComponentMouseEnterEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.ComponentMouseLeaveEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.MouseDragEndEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.MouseDragStartEvent;
 import com.tagteam.tileexplorer.game.windows.GameWindow;
@@ -70,5 +71,7 @@ public abstract class WindowComponent implements GTask {
   public abstract void handleDragEnd(MouseDragEndEvent event);
 
   public abstract void handleMouseEnter(ComponentMouseEnterEvent event);
+
+  public abstract void handleMouseLeave(ComponentMouseLeaveEvent event);
 
 }

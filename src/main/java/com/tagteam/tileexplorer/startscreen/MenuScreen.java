@@ -10,14 +10,13 @@ import com.tagteam.tileexplorer.game.windows.GameWindow;
 import com.tagteam.tileexplorer.game.windows.WindowManager;
 import com.tagteam.tileexplorer.util.graphics.UtilGraphics;
 import com.tagteam.tileexplorer.util.math.IntBoundingBox;
-import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.BufferedInputStream;
-import org.apache.commons.io.IOUtils;
+import java.io.IOException;
+import javax.sound.sampled.AudioSystem;
 
 /*******************************************************
  * Copyright (C) Gestankbratwurst suotokka@gmail.com
@@ -30,10 +29,10 @@ import org.apache.commons.io.IOUtils;
  */
 public class MenuScreen extends GameWindow {
 
-  public MenuScreen(GameResolution resolution, WindowManager windowManager, GameAudioController gameAudioController) {
+  public MenuScreen(GameResolution resolution, WindowManager windowManager, TileExplorerCore core) {
     super(new IntBoundingBox(0, 0, resolution.getWidth(), resolution.getHeight()), Color.GRAY);
+    this.core = core;
     Toolkit toolkit = Toolkit.getDefaultToolkit();
-    this.gameAudioController = gameAudioController;
     this.windowManager = windowManager;
     background = toolkit.getImage(TileExplorerCore.class.getClassLoader().getResource("gifs/startBack.gif"));
     logo = toolkit.getImage(TileExplorerCore.class.getClassLoader().getResource("images/te_logo.png"));
@@ -47,13 +46,13 @@ public class MenuScreen extends GameWindow {
     copyRightFont = new Font("Arial", Font.BOLD, (int) (12D / 640D * gameResolution.getHeight()));
   }
 
+  private final TileExplorerCore core;
   private final GameResolution gameResolution;
   private final Image background;
   private final Image logo;
   private final IntBoundingBox logoBox;
   private final WindowManager windowManager;
   private final Font copyRightFont;
-  private final GameAudioController gameAudioController;
 
   @Override
   public void onOpen() {
@@ -64,14 +63,25 @@ public class MenuScreen extends GameWindow {
     MenuComponent menuComponent = new MenuComponent(this, menuX, menuY, menuWidth, menuHeight);
     this.windowComponents.add(menuComponent);
 
-    BufferedInputStream inputStream = IOUtils.buffer(TileExplorerCore.class.getClassLoader().getResourceAsStream("sounds/main_theme.wav"));
-    gameAudioController.createClip(inputStream, "MainTheme");
-    AudioController.play("MainTheme");
+    int buttonX = menuX + (int) (menuX / 100D * 20D);
+    int buttonY = menuY + (int) (menuY / 100D * 30D);
+    int buttonWidth = menuWidth - (int) (menuX / 100D * 40D);
+    int buttonHeight = (int) (buttonWidth / 4D);
+    StartButton startButton = null;
+    try {
+      startButton = new StartButton(this, buttonX, buttonY, buttonWidth, buttonHeight, windowManager);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    this.windowComponents.add(startButton);
+
+    AudioController.playLoop("MainTheme", 9999);
   }
 
   @Override
   public void onClose() {
-
+    AudioController.stop("MainTheme");
+    core.startGame();
   }
 
   @Override

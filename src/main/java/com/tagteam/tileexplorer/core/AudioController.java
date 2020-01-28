@@ -21,11 +21,33 @@ public class AudioController {
     GAME_AUDIO = audioController;
   }
 
-  public static void play(String clipName) {
+  public static void playOnce(String clipName) {
     Clip clip = GAME_AUDIO.getClip(clipName);
     Preconditions.checkArgument(clip != null);
     clip.setFramePosition(0);
     clip.start();
+  }
+
+  public static void stop(String clipName) {
+    Clip clip = GAME_AUDIO.getClip(clipName);
+    Preconditions.checkArgument(clip != null);
+    clip.setFramePosition(0);
+    clip.stop();
+  }
+
+  public static void playLoop(String clipName, int count) {
+    Clip clip = GAME_AUDIO.getClip(clipName);
+    Preconditions.checkArgument(clip != null);
+    clip.loop(count);
+    clip.setFramePosition(0);
+    clip.start();
+  }
+
+  public static void setVolume(String clipName) {
+    Clip clip = GAME_AUDIO.getClip(clipName);
+    Preconditions.checkArgument(clip != null);
+    clip.setFramePosition(0);
+    clip.stop();
   }
 
 }

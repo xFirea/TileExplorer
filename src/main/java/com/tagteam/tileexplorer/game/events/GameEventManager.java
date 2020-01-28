@@ -5,6 +5,7 @@ import com.tagteam.tileexplorer.game.events.game.TileGenerateEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.ClickEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.ComponentClickEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.ComponentMouseEnterEvent;
+import com.tagteam.tileexplorer.game.events.windowclick.ComponentMouseLeaveEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.MouseDragEndEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.MouseDragStartEvent;
 import com.tagteam.tileexplorer.game.events.windowclick.WindowClickEvent;
@@ -44,6 +45,7 @@ public class GameEventManager {
     eventMap.put(WindowMouseEnterEvent.class, new ObjectOpenHashSet<>());
     eventMap.put(ComponentMouseEnterEvent.class, new ObjectOpenHashSet<>());
     eventMap.put(TileGenerateEvent.class, new ObjectOpenHashSet<>());
+    eventMap.put(ComponentMouseLeaveEvent.class, new ObjectOpenHashSet<>());
   }
 
   private final Map<Class<? extends Event>, Set<InvokableSingleParamObject>> eventMap;

@@ -11,7 +11,6 @@ import com.tagteam.tileexplorer.game.user.GameUser;
 import com.tagteam.tileexplorer.game.windows.components.WindowComponent;
 import com.tagteam.tileexplorer.graphics.mouserenderer.WindowFrameMouseRenderer;
 import com.tagteam.tileexplorer.util.math.IntVect2D;
-import java.applet.AudioClip;
 import java.awt.Color;
 import lombok.AllArgsConstructor;
 
@@ -73,7 +72,7 @@ public class WindowDragListener implements Listener {
       window.moveTo(windowPos.getX() - dx, windowPos.getY() - dy);
       cursor.setCurrentHeldWindow(null);
       cursor.setCursorDrawer(null);
-      AudioController.play("DRAG");
+      AudioController.playOnce("DRAG");
     }
 
     if (component != null) {
