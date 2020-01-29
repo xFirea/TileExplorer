@@ -1,6 +1,5 @@
 package com.tagteam.tileexplorer.startscreen;
 
-import com.gestankbratwurst.le_engine.audio.GameAudioController;
 import com.gestankbratwurst.le_engine.startmenu.GameResolution;
 import com.tagteam.tileexplorer.core.AudioController;
 import com.tagteam.tileexplorer.core.TileExplorerCore;
@@ -16,7 +15,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.IOException;
-import javax.sound.sampled.AudioSystem;
 
 /*******************************************************
  * Copyright (C) Gestankbratwurst suotokka@gmail.com
@@ -67,6 +65,9 @@ public class MenuScreen extends GameWindow {
     int buttonY = menuY + (int) (menuY / 100D * 30D);
     int buttonWidth = menuWidth - (int) (menuX / 100D * 40D);
     int buttonHeight = (int) (buttonWidth / 4D);
+
+    int buttonDeltaY = (int) (buttonHeight / 100D * 15D);
+
     StartButton startButton = null;
     try {
       startButton = new StartButton(this, buttonX, buttonY, buttonWidth, buttonHeight, windowManager);
@@ -74,6 +75,23 @@ public class MenuScreen extends GameWindow {
       e.printStackTrace();
     }
     this.windowComponents.add(startButton);
+
+    OptionsButton optionsButton = null;
+    try {
+      optionsButton = new OptionsButton(this, buttonX, buttonY + buttonHeight + buttonDeltaY, buttonWidth, buttonHeight, windowManager);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    this.windowComponents.add(optionsButton);
+
+    ExitButton exitButton = null;
+    try {
+      int exitY = buttonY + (2 * (buttonHeight + buttonDeltaY));
+      exitButton = new ExitButton(this, buttonX, exitY, buttonWidth, buttonHeight, core);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    this.windowComponents.add(exitButton);
 
     AudioController.playLoop("MainTheme", 9999);
   }

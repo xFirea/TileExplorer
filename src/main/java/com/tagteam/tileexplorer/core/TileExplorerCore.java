@@ -81,6 +81,14 @@ public class TileExplorerCore {
   private final GameScheduler gameScheduler;
   private final WindowManager windowManager;
 
+  public void closeApplication(boolean triggerSave) {
+    if (triggerSave) {
+      engineCore.shutdown();
+    } else {
+      engineCore.shutdownWithoutSave();
+    }
+  }
+
   public void registerEvents(Listener listener) {
     this.eventManager.registerListener(listener);
   }
@@ -135,6 +143,7 @@ public class TileExplorerCore {
     audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("sounds/click3.wav")), "UI_CLICK_3");
     audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("sounds/drag.wav")), "DRAG");
     audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("sounds/main_theme.wav")), "MainTheme");
+    audioController.createClip(IOUtils.buffer(UtilResource.getBufferedResource("sounds/nope.wav")), "NOPE");
     AudioController.init(audioController);
   }
 
@@ -143,8 +152,7 @@ public class TileExplorerCore {
   }
 
   public void startGame() {
-    // TODO debug
-    // windowManager.addWindow(new TestWindow(new IntBoundingBox(0, 0, 200, 200)));
+    GameUser.get().setInGame(true);
 
     TripleLayerOpenSimplexNoiseGenerator generator = new TripleLayerOpenSimplexNoiseGenerator(1580116667489L, 12.5, 10, 10, 10, 0);
 

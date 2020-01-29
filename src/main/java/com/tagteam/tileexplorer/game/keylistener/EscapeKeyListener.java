@@ -1,6 +1,7 @@
 package com.tagteam.tileexplorer.game.keylistener;
 
 import com.gestankbratwurst.le_engine.EngineCore;
+import com.tagteam.tileexplorer.game.user.GameUser;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,9 @@ public class EscapeKeyListener implements KeyListener {
   @Override
   public void keyPressed(KeyEvent keyEvent) {
     // TODO settings window
+    if (!GameUser.get().isInGame()) {
+      return;
+    }
     if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
 
     }

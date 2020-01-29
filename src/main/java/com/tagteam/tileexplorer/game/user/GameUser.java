@@ -2,6 +2,7 @@ package com.tagteam.tileexplorer.game.user;
 
 import com.google.common.base.Preconditions;
 import lombok.Getter;
+import lombok.Setter;
 
 /*******************************************************
  * Copyright (C) Gestankbratwurst suotokka@gmail.com
@@ -15,7 +16,6 @@ import lombok.Getter;
 
 public class GameUser {
 
-  @Getter
   private static GameUser instance;
 
   public static GameUser get() {
@@ -30,5 +30,8 @@ public class GameUser {
 
   @Getter
   private final GameCursor gameCursor;
+  @Getter
+  @Setter
+  private boolean inGame = false;
 
 }
