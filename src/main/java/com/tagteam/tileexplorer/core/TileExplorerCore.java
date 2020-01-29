@@ -25,6 +25,7 @@ import com.tagteam.tileexplorer.util.swingutil.MouseClickEventAdapter;
 import com.tagteam.tileexplorer.util.swingutil.MouseMoveEventAdapter;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.SwingUtilities;
 import org.apache.commons.io.IOUtils;
 
 /*******************************************************
@@ -46,10 +47,6 @@ public class TileExplorerCore {
 
   private static int getSystemThreadCount() {
     return 4;
-  }
-
-  public static void execute(Runnable runnable, long delay) {
-    instance.gameScheduler.runTaskLater(runnable, delay);
   }
 
   public static void main(String[] args) {
@@ -99,8 +96,7 @@ public class TileExplorerCore {
     setupGraphics();
     setupLogic();
     setupAudio();
-    openStartScreen();
-    //startGame();
+    SwingUtilities.invokeLater(this::openStartScreen);
   }
 
   private void setupGameOptions() {
@@ -158,9 +154,7 @@ public class TileExplorerCore {
 
     GameBoard board = new GameBoard(10, 40, 20, generator, GameOptions.MAP_SIZE, GameOptions.BASE_VISIBLE_RADIUS, 320);
 
-    // GameBoard board = new GameBoard(5, 100, 100, new OpenSimplexNoiseGenerator(0, 10D));
-
-    windowManager.addWindow(board);
+    SwingUtilities.invokeLater(() -> windowManager.addWindow(board));
 
     this.engineCore.addKeyListener(new MapDebugKeyListener(board));
   }
