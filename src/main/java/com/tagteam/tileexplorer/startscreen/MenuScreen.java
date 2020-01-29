@@ -61,7 +61,7 @@ public class MenuScreen extends GameWindow {
     int menuWidth = logoBox.getWidth();
     int menuHeight = (int) (gameResolution.getHeight() / 100D * 55D);
     MenuComponent menuComponent = new MenuComponent(this, menuX, menuY, menuWidth, menuHeight);
-    this.windowComponents.add(menuComponent);
+    //this.windowComponents.add(menuComponent);
 
     int buttonX = menuX + (int) (menuX / 100D * 20D);
     int buttonY = menuY + (int) (menuY / 100D * 30D);
